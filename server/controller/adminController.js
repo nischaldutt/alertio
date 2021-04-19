@@ -43,9 +43,9 @@ module.exports.generatePasswords = async (req, res, next) => {
 module.exports.adminLogin = async (req, res, next) => {
   try {
     const admin = {
-      admin_name: req.body.admin_name,
-      branch_username: req.body.branch_username,
-      branch_password: req.body.branch_password,
+      admin_name: req.body.params.admin_name,
+      branch_username: req.body.params.branch_username,
+      branch_password: req.body.params.branch_password,
     };
     // console.log(admin);
     await adminValidators.validateAdminLogin(admin);
