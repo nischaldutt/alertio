@@ -1,0 +1,2 @@
+export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";
+export const ERROR_OCCURRED = "ERROR_OCCURRED";
