@@ -133,3 +133,12 @@ module.exports.fetchBranchInfo = (mappingIds) => {
     });
   });
 };
+
+module.exports.getBranchId = ({ username }) => {
+  const query = `SELECT branch_id FROM branches WHERE username='${username}';`;
+  return new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      err ? reject(err) : resolve(result[0]);
+    });
+  });
+};
