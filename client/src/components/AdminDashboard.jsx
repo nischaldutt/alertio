@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Loading from "./Loading";
+import io from "socket.io-client";
 
+import { saveAlertsInStore, saveAlertObjInStore } from "../actions";
+
+import Loading from "./Loading";
 import {
   Paper,
   Table,
@@ -24,26 +27,26 @@ const columns = [
     id: "username",
     label: "Username",
     minWidth: 170,
-    align: "right",
+    align: "left",
   },
   {
     id: "password",
     label: "Password",
     minWidth: 170,
-    align: "right",
+    align: "left",
   },
   {
     id: "contacts",
-    label: "Density",
+    label: "Contact Numbers",
     minWidth: 170,
-    align: "right",
+    align: "left",
     format: (contacts) => contacts.join(),
   },
   {
     id: "pin_codes",
-    label: "Density",
+    label: "Pin Codes",
     minWidth: 170,
-    align: "right",
+    align: "left",
     format: (pin_codes) => pin_codes.join(),
   },
 ];
@@ -51,18 +54,35 @@ const columns = [
 const useStyles = makeStyles({
   root: {
     width: "100%",
+    minHeight: "calc(100vh - 70px)",
   },
   container: {
-    maxHeight: 440,
+    maxHeight: "80vh",
   },
 });
 
-const AdminDashboard = ({ branches }) => {
+const AdminDashboard = ({
+  branches,
+  saveAlertsInStore,
+  saveAlertObjInStore,
+}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const socket = io.connect(process.env.REACT_APP_PROXY);
 
-  console.log("here");
+  socket.on("fetch-alerts", (alerts) => {
+    // console.log("received alerts on admin ==> ");
+    // console.log(alerts);
+    saveAlertsInStore(alerts);
+  });
+
+  socket.on("fetch-alerts-realtime", (alert) => {
+    // console.log("in realtime ===> ");
+    // console.log(data);
+    saveAlertObjInStore(alert);
+  });
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -84,7 +104,7 @@ const AdminDashboard = ({ branches }) => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth, fontWeight: "bold" }}
                 >
                   {column.label}
                 </TableCell>
@@ -106,7 +126,7 @@ const AdminDashboard = ({ branches }) => {
                       const value = branch[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
+                          {column.format && typeof value === "object"
                             ? column.format(value)
                             : value}
                         </TableCell>
@@ -119,7 +139,7 @@ const AdminDashboard = ({ branches }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[20, 50, 100]}
         component="div"
         count={branches.length}
         rowsPerPage={rowsPerPage}
@@ -135,6 +155,9 @@ const mapStateToProps = (state) => ({
   branches: state.branches,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  saveAlertsInStore,
+  saveAlertObjInStore,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard);
