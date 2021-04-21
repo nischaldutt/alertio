@@ -4,6 +4,7 @@ import createBrowserHistory from "../history";
 import Header from "./Header";
 import Home from "./Home";
 import AdminDashboard from "./AdminDashboard";
+import AdminNotifications from "./AdminNotifications";
 
 import { Grid, ThemeProvider } from "@material-ui/core";
 import theme from "../themes";
@@ -16,10 +17,16 @@ const App = () => {
           <Grid item>
             <Header />
           </Grid>
+
           <Grid item container>
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/admin/dashboard" exact component={AdminDashboard} />
+              <Route
+                path="/admin/notifications"
+                exact
+                component={AdminNotifications}
+              />
             </Switch>
           </Grid>
         </Grid>

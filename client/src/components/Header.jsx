@@ -1,17 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   AppBar,
+  Badge,
   Toolbar,
   Typography,
   IconButton,
   makeStyles,
 } from "@material-ui/core";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
+  },
   root: {
     backgroundColor: theme.palette.primary.main,
     height: 70,
@@ -38,11 +43,36 @@ const useStyles = makeStyles((theme) => ({
       color: `${theme.palette.secondary.main}`,
     },
   },
+  sectionDesktop: {
+    border: "2px solid black",
+    display: "flex",
+  },
+  badge: {
+    color: "red",
+  },
 }));
 
-const Header = () => {
+const Header = (props) => {
+  const { pathname } = useLocation();
   const classes = useStyles();
   const appHeader = "AlertIO: An Alert Management Application";
+  const [invisible, setInvisible] = React.useState(false);
+
+  const handleBadgeVisibility = () => {
+    setInvisible(!invisible);
+  };
+
+  const renderNotificationBadge = () => {
+    return (
+      <Link to="/admin/notifications">
+        <IconButton aria-label="show new notifications" color="inherit">
+          <Badge variant="dot" color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+      </Link>
+    );
+  };
 
   return (
     <AppBar position="static" className={classes.root}>
@@ -58,6 +88,9 @@ const Header = () => {
             {appHeader}
           </Typography>
         </Link>
+
+        <div className={classes.grow} />
+        {pathname === "/admin/dashboard" ? renderNotificationBadge() : null}
       </Toolbar>
     </AppBar>
   );
