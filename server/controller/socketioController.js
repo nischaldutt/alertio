@@ -25,7 +25,10 @@ module.exports = function (io) {
       }
       console.log(connectedSocketIds);
 
-      io.emit("fetch-alerts-realtime", alertObj);
+      io.emit("fetch-alerts-realtime", {
+        alert: JSON.stringify(alertObj),
+        timestamp: new Date(),
+      });
     });
 
     socket.on("admin-connected", async ({ username }) => {
