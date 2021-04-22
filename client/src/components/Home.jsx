@@ -23,18 +23,12 @@ const Home = (props) => {
       alignItems="center"
       justify="center"
       className={classes.root}
-      style={{ border: "5px solid black" }}
     >
-      <Grid
-        item
-        container
-        justify="space-evenly"
-        style={{ border: "5px solid blue" }}
-      >
-        <Grid item sm={11} md={3} style={{ border: "5px solid green" }}>
+      <Grid item container justify="space-evenly">
+        <Grid item sm={11} md={3}>
           <AdminForm />
         </Grid>
-        <Grid item sm={11} md={3} style={{ border: "5px solid green" }}>
+        <Grid item sm={11} md={3}>
           <CustomerForm />
         </Grid>
       </Grid>

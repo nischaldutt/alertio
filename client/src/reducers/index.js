@@ -5,7 +5,7 @@ import {
   errorReducer,
   branchInfoReducer,
   alertReducer,
-  realTimeAlertReducer,
+  realTimeAlertsReducer,
 } from "./alertioReducers";
 
 export default combineReducers({
@@ -13,5 +13,5 @@ export default combineReducers({
   error: errorReducer,
   branchInfo: branchInfoReducer,
   alerts: alertReducer,
-  realTimeAlert: realTimeAlertReducer,
+  realTimeAlerts: realTimeAlertsReducer,
 });

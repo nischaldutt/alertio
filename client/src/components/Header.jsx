@@ -43,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
       color: `${theme.palette.secondary.main}`,
     },
   },
-  sectionDesktop: {
-    border: "2px solid black",
-    display: "flex",
-  },
   badge: {
     color: "red",
   },

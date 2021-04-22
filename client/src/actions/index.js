@@ -59,8 +59,6 @@ export const fetchBranchInfo = ({ customer_username, pin_code }) => async (
 };
 
 export const saveAlertsInStore = (alerts) => {
-  console.log("saving alerts in store");
-  console.log(alerts);
   return {
     type: SAVE_ALERTS_IN_STORE,
     payload: alerts,

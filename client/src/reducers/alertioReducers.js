@@ -44,10 +44,10 @@ export const alertReducer = (state = [], action) => {
   }
 };
 
-export const realTimeAlertReducer = (state = {}, action) => {
+export const realTimeAlertsReducer = (state = [], action) => {
   switch (action.type) {
     case GET_REALTIME_ALERT:
-      return action.payload;
+      return [action.payload, ...state];
     default:
       return state;
   }

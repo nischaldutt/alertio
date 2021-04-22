@@ -63,6 +63,7 @@ const useStyles = makeStyles({
 
 const AdminDashboard = ({
   branches,
+  realTimeAlerts,
   saveAlertsInStore,
   saveAlertObjInStore,
 }) => {
