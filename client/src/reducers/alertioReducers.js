@@ -39,13 +39,6 @@ export const alertReducer = (state = [], action) => {
   switch (action.type) {
     case SAVE_ALERTS_IN_STORE:
       return action.payload;
-    default:
-      return state;
-  }
-};
-
-export const realTimeAlertsReducer = (state = [], action) => {
-  switch (action.type) {
     case GET_REALTIME_ALERT:
       return [action.payload, ...state];
     default:

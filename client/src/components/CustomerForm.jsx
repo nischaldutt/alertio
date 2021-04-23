@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
 
+import socket from "../socketClient";
 import BranchInfoModal from "./BranchInfoModal";
 import { fetchBranchInfo } from "../actions";
 
 import { TextField } from "mui-rff";
-
-import io from "socket.io-client";
 
 import {
   Typography,
@@ -58,8 +57,6 @@ const formFields = [
 let valuesObj = {};
 
 const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
-  const socket = io.connect(process.env.REACT_APP_PROXY);
-
   useEffect(() => {
     if (branchInfo.length) {
       const branchIds = branchInfo.map((branch) => branch.branch_id);
@@ -68,7 +65,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
         branchIds,
       });
     }
-  }, [branchInfo, socket]);
+  }, [branchInfo]);
 
   const onSubmit = (values) => {
     fetchBranchInfo(values);
@@ -126,7 +123,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
           )}
         />
       </Paper>
-      {branchInfo.length && <BranchInfoModal />}
+      {branchInfo.length ? <BranchInfoModal /> : null}
     </div>
   );
 };

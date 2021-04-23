@@ -65,7 +65,7 @@ export const saveAlertsInStore = (alerts) => {
   };
 };
 
-export const saveAlertObjInStore = (alertObj) => {
+export const saveRealTimeAlertInStore = (alertObj) => {
   return {
     type: GET_REALTIME_ALERT,
     payload: alertObj,
