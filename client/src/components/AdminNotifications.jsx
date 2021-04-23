@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import AlertComponent from "./AlertComponent";
@@ -13,26 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminNotifications = ({ alerts, realTimeAlerts }) => {
+const AdminNotifications = ({ alerts }) => {
   const classes = useStyles();
-
-  const renderRealTimeAlerts = useCallback(() => {
-    return realTimeAlerts.map((alert, index) => {
-      return (
-        <Grid item key={index}>
-          <AlertComponent
-            severity="warning"
-            alert={alert}
-            alertHeader="New Alert"
-          />
-        </Grid>
-      );
-    });
-  }, [realTimeAlerts]);
-
-  useEffect(() => {
-    renderRealTimeAlerts();
-  }, [realTimeAlerts, renderRealTimeAlerts]);
 
   const renderAlerts = () => {
     return alerts.map((alert, index) => {
@@ -48,7 +30,6 @@ const AdminNotifications = ({ alerts, realTimeAlerts }) => {
     <div>
       <div className={classes.grow} />
       <Grid container spacing={3} justify="center">
-        {renderRealTimeAlerts()}
         {!alerts.length ? <Loading /> : renderAlerts()}
       </Grid>
     </div>
@@ -57,7 +38,6 @@ const AdminNotifications = ({ alerts, realTimeAlerts }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   alerts: state.alerts,
-  realTimeAlerts: state.realTimeAlerts,
 });
 
 const mapDispatchToProps = {};

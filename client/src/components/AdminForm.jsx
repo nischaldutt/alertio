@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
-import io from "socket.io-client";
+import socket from "../socketClient";
 
 import { fetchAllBranches } from "../actions";
 
@@ -71,13 +71,11 @@ const formFields = [
 let username;
 
 const AdminForm = ({ fetchAllBranches, branches }) => {
-  const socket = io.connect(process.env.REACT_APP_PROXY);
-
   useEffect(() => {
     if (branches.length) {
       socket.emit("admin-connected", { username });
     }
-  }, [branches, socket]);
+  }, [branches]);
 
   const onSubmit = (values) => {
     fetchAllBranches(values);

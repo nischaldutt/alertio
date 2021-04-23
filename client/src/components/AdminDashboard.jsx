@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import io from "socket.io-client";
 
-import { saveAlertsInStore, saveAlertObjInStore } from "../actions";
+import socket from "../socketClient";
+import { saveAlertsInStore, saveRealTimeAlertInStore } from "../actions";
 
 import Loading from "./Loading";
 import {
@@ -63,26 +63,22 @@ const useStyles = makeStyles({
 
 const AdminDashboard = ({
   branches,
-  realTimeAlerts,
   saveAlertsInStore,
-  saveAlertObjInStore,
+  saveRealTimeAlertInStore,
 }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
-  const socket = io.connect(process.env.REACT_APP_PROXY);
 
-  socket.on("fetch-alerts", (alerts) => {
-    // console.log("received alerts on admin ==> ");
-    // console.log(alerts);
-    saveAlertsInStore(alerts);
-  });
+  useEffect(() => {
+    socket.on("fetch-alerts", (alerts) => {
+      saveAlertsInStore(alerts);
+    });
 
-  socket.on("fetch-alerts-realtime", (alert) => {
-    // console.log("in realtime ===> ");
-    // console.log(data);
-    saveAlertObjInStore(alert);
-  });
+    socket.on("fetch-alerts-realtime", (alert) => {
+      saveRealTimeAlertInStore(alert);
+    });
+  }, [saveAlertsInStore, saveRealTimeAlertInStore]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -158,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   saveAlertsInStore,
-  saveAlertObjInStore,
+  saveRealTimeAlertInStore,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard);
