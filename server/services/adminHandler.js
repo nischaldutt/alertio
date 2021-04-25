@@ -55,13 +55,37 @@ module.exports.pushPasswords = (hash) => {
   });
 };
 
-module.exports.isAdminRegistered = (adminName) => {
-  const query = `SELECT admin_name FROM admins WHERE admin_name = '${adminName}';`;
+module.exports.isAdminRegistered = ({ admin_email }) => {
+  const query = `SELECT admin_email FROM admins WHERE admin_email = '${admin_email}';`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, result) => {
-      err || !result.length
-        ? reject(adminUtilities.adminNotRegistered(adminName))
-        : resolve(adminUtilities.adminRegistered(result[0]));
+      err ? reject(err) : result.length ? resolve(true) : resolve(false);
+    });
+  });
+};
+
+module.exports.getAdminId = ({ admin_email }) => {
+  const query = `SELECT admin_id FROM admins WHERE admin_email = '${admin_email}';`;
+  return new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      err
+        ? reject(err)
+        : result.length
+        ? resolve(result[0].admin_id)
+        : reject(adminUtilities.adminNotRegistered({ admin_email }));
+    });
+  });
+};
+
+module.exports.saveAdminDetails = (admin) => {
+  const query = `INSERT INTO admins SET ?`;
+  return new Promise((resolve, reject) => {
+    connection.query(query, admin, (err, result) => {
+      err
+        ? reject(err)
+        : resolve(
+            adminUtilities.adminRegistered({ admin_name: admin.admin_name })
+          );
     });
   });
 };
@@ -77,20 +101,18 @@ module.exports.isUsernameCorrect = (username) => {
   });
 };
 
-module.exports.getPasswordHash = (branchUsername) => {
-  const query = `SELECT password FROM branches WHERE username = '${branchUsername}';`;
+module.exports.getPasswordHash = ({
+  table,
+  selectColumn,
+  filterColumn,
+  filterColumnValue,
+}) => {
+  const query = `SELECT ${selectColumn} FROM ${table} WHERE ${filterColumn} = '${filterColumnValue}';`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, result) => {
-      err || !result.length ? reject(err) : resolve(result[0]);
+      err ? reject(err) : resolve(result[0][selectColumn]);
     });
   });
-};
-
-module.exports.checkIfPasswordCorrect = async (
-  passwordEntered,
-  passwordHash
-) => {
-  return await bcrypt.matchPassword(passwordEntered, passwordHash);
 };
 
 module.exports.getBranchData = () => {

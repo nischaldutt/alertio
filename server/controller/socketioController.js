@@ -24,7 +24,7 @@ module.exports = function (io) {
       for (let id = 0; id < affectedRows; id++) {
         alertIds.push({ alert_id: insertId + id, branch_id: branchIds[id] });
       }
-      console.log({ alertIds: alertIds });
+      console.log({ alert_ids: alertIds });
 
       // get online room names
       const connectedSocketIds = [];
