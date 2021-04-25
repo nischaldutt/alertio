@@ -22,6 +22,23 @@ const invalidObject = (err) => {
   };
 };
 
+module.exports.validateAdminRegister = (admin) => {
+  const schema = joi.object().keys({
+    admin_name: joi.string().required(),
+    admin_email: joi
+      .string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
+    admin_password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+  });
+
+  return new Promise((resolve, reject) => {
+    const validationResult = schema.validate(admin);
+    validationResult.error
+      ? reject(invalidObject(validationResult.error))
+      : resolve(validObject("Input Validated"));
+  });
+};
+
 module.exports.validateAdminLogin = (admin) => {
   const schema = joi.object().keys({
     admin_name: joi.string().required(),

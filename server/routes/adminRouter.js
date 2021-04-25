@@ -15,6 +15,9 @@ router.post(
   adminController.generatePasswords
 );
 
+// NEW ADMIN REGISTER
+router.post("/register", adminController.registerAdmin);
+
 // ADMIN LOGIN
 router.post(
   "/login",

@@ -1,6 +1,7 @@
 const adminHandler = require("../services/adminHandler");
 const adminValidators = require("../validators/adminValidators");
 const adminUtilities = require("../utilities/adminUtilities");
+const bcrypt = require("../libs/brcypt");
 const CONSTANTS = require("../properties/constants");
 
 module.exports.generateUsernames = async (req, res, next) => {
@@ -40,12 +41,43 @@ module.exports.generatePasswords = async (req, res, next) => {
   }
 };
 
+module.exports.registerAdmin = async (req, res, next) => {
+  try {
+    const admin = {
+      admin_name: req.body.admin_name,
+      admin_email: req.body.admin_email,
+      admin_password: req.body.admin_password,
+    };
+
+    // validate inputs
+    await adminValidators.validateAdminRegister(admin);
+
+    // check if admin_email already exists
+    const isAdminRegistered = await adminHandler.isAdminRegistered({
+      admin_email: admin.admin_email,
+    });
+
+    if (!isAdminRegistered) {
+      // encrypt the password and push admin details
+      const hashedPassword = await bcrypt.hashPassword({
+        password: admin.admin_password,
+      });
+      admin.admin_password = hashedPassword;
+      const adminSaved = await adminHandler.saveAdminDetails(admin);
+      console.log(adminSaved);
+      res.status(CONSTANTS.responseFlags.ACTION_COMPLETE).json(adminSaved);
+    }
+  } catch (err) {
+    res.status(CONSTANTS.responseFlags.ACTION_INCOMPLETE).json(err);
+  }
+};
+
 module.exports.adminLogin = async (req, res, next) => {
   try {
     const admin = {
-      admin_name: req.body.params.admin_name,
-      branch_username: req.body.params.branch_username,
-      branch_password: req.body.params.branch_password,
+      admin_name: req.body.admin_name,
+      branch_username: req.body.branch_username,
+      branch_password: req.body.branch_password,
     };
     // console.log(admin);
     await adminValidators.validateAdminLogin(admin);
