@@ -41,9 +41,10 @@ module.exports.validateAdminRegister = (admin) => {
 
 module.exports.validateAdminLogin = (admin) => {
   const schema = joi.object().keys({
-    admin_name: joi.string().required(),
-    branch_username: joi.string().alphanum().min(3).max(30).required(),
-    branch_password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+    admin_email: joi
+      .string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
+    admin_password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
   });
 
   return new Promise((resolve, reject) => {

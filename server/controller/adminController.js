@@ -1,7 +1,9 @@
 const adminHandler = require("../services/adminHandler");
 const adminValidators = require("../validators/adminValidators");
 const adminUtilities = require("../utilities/adminUtilities");
+const libHandler = require("../services/libHandler");
 const bcrypt = require("../libs/brcypt");
+const jwt = require("../libs/jwt");
 const CONSTANTS = require("../properties/constants");
 
 module.exports.generateUsernames = async (req, res, next) => {
@@ -57,7 +59,13 @@ module.exports.registerAdmin = async (req, res, next) => {
       admin_email: admin.admin_email,
     });
 
-    if (!isAdminRegistered) {
+    if (isAdminRegistered) {
+      res.status(CONSTANTS.responseFlags.ACTION_INCOMPLETE).json(
+        adminUtilities.adminAlreadyRegistered({
+          admin_email: admin.admin_email,
+        })
+      );
+    } else {
       // encrypt the password and push admin details
       const hashedPassword = await bcrypt.hashPassword({
         password: admin.admin_password,
@@ -75,36 +83,55 @@ module.exports.registerAdmin = async (req, res, next) => {
 module.exports.adminLogin = async (req, res, next) => {
   try {
     const admin = {
-      admin_name: req.body.admin_name,
-      branch_username: req.body.branch_username,
-      branch_password: req.body.branch_password,
+      admin_email: req.body.admin_email,
+      admin_password: req.body.admin_password,
     };
-    // console.log(admin);
+
     await adminValidators.validateAdminLogin(admin);
     // check if admin has been registered or not
-    const isAdminRegistered = await adminHandler.isAdminRegistered(
-      admin.admin_name
-    );
+    const adminId = await adminHandler.getAdminId({
+      admin_email: admin.admin_email,
+    });
+    console.log({ adminId: adminId });
 
-    // check if branch_username entered is correct or not
-    await adminHandler.isUsernameCorrect(admin.branch_username);
+    // get password hash
+    const passwordHash = await adminHandler.getPasswordHash({
+      table: "admins",
+      selectColumn: "admin_password",
+      filterColumn: "admin_id",
+      filterColumnValue: adminId,
+    });
+    console.log({ passwordHash: passwordHash });
 
-    if (!isAdminRegistered.error) {
-      const { password: passwordHash } = await adminHandler.getPasswordHash(
-        admin.branch_username
+    // check if password is correct
+    const isPasswordCorrect = await bcrypt.matchPassword({
+      passwordEntered: admin.admin_password,
+      passwordHash,
+    });
+    console.log({ isPasswordCorrect: isPasswordCorrect });
+
+    if (!isPasswordCorrect) {
+      res
+        .status(CONSTANTS.responseFlags.INCORRECT_PASSWORD)
+        .json(adminUtilities.incorrectPassword(admin));
+    } else {
+      // create jwt token and save it
+      const token = jwt.createToken({ email: admin.admin_email });
+      console.log({ jwt_token: token });
+
+      const savedToken = await libHandler.saveJwtToken({
+        table: "admins",
+        updateColumn: "token",
+        updateColumnValue: token,
+        filterColumn: "admin_id",
+        filterColumnValue: adminId,
+      });
+      console.log({ savedToken: savedToken });
+      res.status(CONSTANTS.responseFlags.ADMIN_LOGIN).json(
+        adminUtilities.adminLoginSuccessful({
+          admin_email: admin.admin_email,
+        })
       );
-
-      // use bcrypt to match password hash with entered branch_password
-      const isPasswordCorrect = await adminHandler.checkIfPasswordCorrect(
-        admin.branch_password,
-        passwordHash
-      );
-
-      isPasswordCorrect
-        ? next()
-        : res
-            .status(CONSTANTS.responseFlags.INCORRECT_PASSWORD)
-            .json(adminUtilities.incorrectPassword(admin));
     }
   } catch (err) {
     res.status(CONSTANTS.responseFlags.ADMIN_NOT_LOGGED_IN).json(err);

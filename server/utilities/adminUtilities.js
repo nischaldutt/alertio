@@ -32,13 +32,11 @@ module.exports.passwordsNotGenerated = (err) => {
   };
 };
 
-module.exports.adminNotRegistered = (adminName) => {
+module.exports.adminNotRegistered = ({ admin_email }) => {
   return {
-    error: {
-      message: `Admin ${adminName} is not registered.`,
-    },
-    status: CONSTANTS.responseFlags.ADMIN_NOT_REGISTERED,
-    message: "Admin not registered. Please enter correct admin name.",
+    error: admin_email,
+    status: CONSTANTS.responseFlags.ACTION_INCOMPLETE,
+    message: "Admin is not registered.",
   };
 };
 
@@ -55,6 +53,14 @@ module.exports.adminRegistered = ({ admin_name }) => {
     data: admin_name,
     status: CONSTANTS.responseFlags.ACTION_COMPLETE,
     message: "Admin successfully registered.",
+  };
+};
+
+module.exports.adminLoginSuccessful = ({ admin_email }) => {
+  return {
+    data: admin_email,
+    status: CONSTANTS.responseFlags.ACTION_COMPLETE,
+    message: "Admin successfully logged in.",
   };
 };
 

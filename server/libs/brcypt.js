@@ -1,3 +1,5 @@
+const Promise = require("bluebird");
+
 const bcrypt = require("bcrypt");
 
 const saltRounds = 10;
@@ -9,9 +11,9 @@ exports.hashPassword = async ({ password }) => {
   return hash;
 };
 
-exports.matchPassword = (passwordEntered, hashPassword) => {
+exports.matchPassword = ({ passwordEntered, passwordHash }) => {
   return new Promise((resolve, reject) => {
-    bcrypt.compare(passwordEntered, hashPassword, (err, result) => {
+    bcrypt.compare(passwordEntered, passwordHash, (err, result) => {
       err ? reject(err) : resolve(result);
     });
   });
