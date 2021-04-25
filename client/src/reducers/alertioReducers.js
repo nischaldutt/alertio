@@ -1,10 +1,30 @@
 import {
+  SAVE_ADMIN,
+  SAVE_CUSTOMER,
   GET_ALL_BRANCHES,
   ERROR_OCCURRED,
   GET_BRANCH_INFO,
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
 } from "../actions/types";
+
+export const adminReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SAVE_ADMIN:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const customerReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SAVE_CUSTOMER:
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 export const branchesReducer = (state = [], action) => {
   switch (action.type) {

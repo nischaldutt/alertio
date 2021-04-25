@@ -26,10 +26,10 @@ const Home = (props) => {
     >
       <Grid item container justify="space-evenly">
         <Grid item sm={11} md={3}>
-          <AdminForm />
+          {/* <AdminForm /> */}
         </Grid>
         <Grid item sm={11} md={3}>
-          <CustomerForm />
+          {/* <CustomerForm /> */}
         </Grid>
       </Grid>
     </Grid>
