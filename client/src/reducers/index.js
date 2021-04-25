@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 
 import {
+  adminReducer,
+  customerReducer,
   branchesReducer,
   errorReducer,
   branchInfoReducer,
@@ -8,6 +10,8 @@ import {
 } from "./alertioReducers";
 
 export default combineReducers({
+  admin: adminReducer,
+  customer: customerReducer,
   branches: branchesReducer,
   error: errorReducer,
   branchInfo: branchInfoReducer,

@@ -1,12 +1,28 @@
 import backend from "../api";
 import createBrowserHistory from "../history";
 import {
+  SAVE_ADMIN,
+  SAVE_CUSTOMER,
   GET_ALL_BRANCHES,
   ERROR_OCCURRED,
   GET_BRANCH_INFO,
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
 } from "./types";
+
+export const saveAdmin = (admin) => {
+  return {
+    type: SAVE_ADMIN,
+    payload: admin,
+  };
+};
+
+export const saveCustomer = (customer) => {
+  return {
+    type: SAVE_CUSTOMER,
+    payload: customer,
+  };
+};
 
 export const fetchAllBranches = ({
   admin_name,
