@@ -14,6 +14,7 @@ const cors = require("cors");
 
 require("./controller/socketioController")(io);
 
+const authRouter = require("./routes/authRoutes");
 const adminRouter = require("./routes/adminRouter");
 const customerRouter = require("./routes/customerRouter");
 
@@ -21,10 +22,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ADMIN ROUTES
+// Authorization routes
+app.use("/auth", authRouter);
+
+// Admin routes
 app.use("/admin", adminRouter);
 
-// CUSTOMER routes
+// Customer routes
 app.use("/customer", customerRouter);
 
 http.listen(process.env.PORT || 3001, () => {

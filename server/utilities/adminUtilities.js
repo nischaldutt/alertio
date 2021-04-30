@@ -56,9 +56,9 @@ module.exports.adminRegistered = ({ admin_name }) => {
   };
 };
 
-module.exports.adminLoginSuccessful = ({ admin_email }) => {
+module.exports.adminLoginSuccessful = (payload) => {
   return {
-    data: admin_email,
+    data: payload,
     status: CONSTANTS.responseFlags.ACTION_COMPLETE,
     message: "Admin successfully logged in.",
   };

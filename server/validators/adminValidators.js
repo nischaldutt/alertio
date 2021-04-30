@@ -54,3 +54,18 @@ module.exports.validateAdminLogin = (admin) => {
       : resolve(validObject("Input Validated"));
   });
 };
+
+module.exports.validateAdminLogout = (admin) => {
+  const schema = joi.object().keys({
+    admin_email: joi
+      .string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
+  });
+
+  return new Promise((resolve, reject) => {
+    const validationResult = schema.validate(admin);
+    validationResult.error
+      ? reject(invalidObject(validationResult.error))
+      : resolve(validObject("Input Validated"));
+  });
+};
