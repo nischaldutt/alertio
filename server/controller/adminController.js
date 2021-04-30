@@ -1,9 +1,12 @@
+const bcrypt = require("../libs/brcypt");
+const jwt = require("../libs/jwt");
+const redisClient = require("../database/redis");
+
 const adminHandler = require("../services/adminHandler");
 const adminValidators = require("../validators/adminValidators");
 const adminUtilities = require("../utilities/adminUtilities");
 const libHandler = require("../services/libHandler");
-const bcrypt = require("../libs/brcypt");
-const jwt = require("../libs/jwt");
+
 const CONSTANTS = require("../properties/constants");
 
 module.exports.generateUsernames = async (req, res, next) => {
@@ -115,26 +118,45 @@ module.exports.adminLogin = async (req, res, next) => {
         .status(CONSTANTS.responseFlags.INCORRECT_PASSWORD)
         .json(adminUtilities.incorrectPassword(admin));
     } else {
-      // create jwt token and save it
-      const token = jwt.createToken({ email: admin.admin_email });
-      console.log({ jwt_token: token });
+      const tokenPayload = { id: adminId };
+      // create an access token
+      const accessToken = jwt.createAccessToken(tokenPayload);
+      // create a refresh token so as to refresh the access token after it expires
+      const refreshToken = jwt.createRefreshToken(tokenPayload);
+      // save the refresh token as values in redis cache with key as adminId
+      redisClient.setex(adminId, 3600, refreshToken);
 
-      const savedToken = await libHandler.saveJwtToken({
-        table: "admins",
-        updateColumn: "token",
-        updateColumnValue: token,
-        filterColumn: "admin_id",
-        filterColumnValue: adminId,
-      });
-      console.log({ savedToken: savedToken });
-      res.status(CONSTANTS.responseFlags.ADMIN_LOGIN).json(
-        adminUtilities.adminLoginSuccessful({
-          admin_email: admin.admin_email,
-        })
-      );
+      // send the accessToken and refreshToken to the client
+      const payload = { accessToken, refreshToken };
+      console.log({ payloadSentToClient: payload });
+      res
+        .status(CONSTANTS.responseFlags.ADMIN_LOGIN)
+        .json(adminUtilities.adminLoginSuccessful(payload));
     }
   } catch (err) {
     res.status(CONSTANTS.responseFlags.ADMIN_NOT_LOGGED_IN).json(err);
+  }
+};
+
+module.exports.adminLogout = async (req, res, next) => {
+  try {
+    const { id } = req.payload;
+    if (!id) {
+      return res.status(CONSTANTS.responseFlags.ACTION_INCOMPLETE).json(
+        libUtilities.accessTokenMissing({
+          error: "Admin id not found.",
+        })
+      );
+    } else {
+      // remove the refresh token from redis
+      redisClient.del(id, (err, value) => {
+        if (err) console.log(err);
+        console.log(value);
+        res.sendStatus(CONSTANTS.responseFlags.LOGOUT_SUCCESSFUL);
+      });
+    }
+  } catch (err) {
+    res.status(CONSTANTS.responseFlags.ACTION_INCOMPLETE).json(err);
   }
 };
 
@@ -142,14 +164,11 @@ module.exports.displayDashboard = async (req, res, next) => {
   try {
     // get data related to all branches from 'branches' table in db
     const branchesFromDb = await adminHandler.getBranchData();
-
-    const {
-      data: { branches: responseArray },
-    } = branchesFromDb;
+    console.log({ branchesFromDb });
+    const { data: responseArray } = branchesFromDb;
     // create an array that contains all information related to foreign keys
     // in database so as to extract data from other tables
     let mappingIds = [];
-
     responseArray.map((branchData) => {
       mappingIds.push({
         branch_id: branchData.branch_id,
@@ -158,19 +177,16 @@ module.exports.displayDashboard = async (req, res, next) => {
       });
     });
 
-    // console.log(responseArray);
-
     // fetch all additional information like contact_numbers pin_codes
     // from respective tables
-    const {
-      data: { result: fetchedBranchInfo },
-    } = await adminHandler.fetchBranchInfo(mappingIds);
-    // console.log(fetchedBranchInfo);
+    const { data: fetchedBranchInfo } = await adminHandler.fetchBranchInfo(
+      mappingIds
+    );
+    // console.log({ fetchedBranchInfo });
 
     responseArray.map((branchInfo) => {
       // extract institute_name, city_name, contacts and pin_codes from fetchedBranchInfo
       branchInfo.institute_name = fetchedBranchInfo[0][0].institute_name;
-
       branchInfo.city_name = fetchedBranchInfo[1][0].city_name;
 
       // 'contacts' is an array so we use array.reduce to filter
@@ -198,6 +214,7 @@ module.exports.displayDashboard = async (req, res, next) => {
       );
     });
 
+    console.log({ responseArray });
     res
       .status(CONSTANTS.responseFlags.RECEIVED_BRANCH_DATA)
       .json(responseArray);

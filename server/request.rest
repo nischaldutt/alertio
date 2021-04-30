@@ -1,0 +1,30 @@
+POST http://localhost:3001/admin/login
+Content-Type: application/json
+
+{
+  "admin_email": "admin1@gmail.com",
+  "admin_password": "password"
+}
+
+###
+
+GET http://localhost:3001/admin/dashboard
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MzU3LCJleHAiOjE2MTk3ODczNzd9.fLBxpU3w-qRJTarrEx007e4U6AFkWbkakb7rzHiiQWo
+
+###
+
+POST http://localhost:3001/auth/token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MjkxLCJleHAiOjE2MjAzOTIwOTF9.9a_lwX-8CgMQI4EVXG96mYChDr_qao1NUjV2_RiNHGU"
+}
+
+###
+
+POST http://localhost:3001/admin/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5NzgxMzE0LCJleHAiOjE2MTk4Njc3MTR9.9Da3U2-6h39HyNiurqoAdyTx9RlFQuUsp4oHiCYbxpM
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MjkxLCJleHAiOjE2MjAzOTIwOTF9.9a_lwX-8CgMQI4EVXG96mYChDr_qao1NUjV2_RiNHGU",
+}
