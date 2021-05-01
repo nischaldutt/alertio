@@ -28,3 +28,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
 {
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MjkxLCJleHAiOjE2MjAzOTIwOTF9.9a_lwX-8CgMQI4EVXG96mYChDr_qao1NUjV2_RiNHGU",
 }
+
+###
+
+POST http://localhost:3001/branch/login
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5ODU1MzQ1LCJleHAiOjE2MTk5NDE3NDV9.OzbALAfwoCgJmbzkip2YAHaJ3c5-S1FiydIhKXKWh5o
+
+{
+  "branch_username": "isengard",
+  "branch_password": "password"
+}
+
+###
+
+GET http://localhost:3001/customer/get_branch_info
+  ?customer_username=nischal
+  &pin_code=700013

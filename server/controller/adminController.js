@@ -95,7 +95,7 @@ module.exports.adminLogin = async (req, res, next) => {
     const adminId = await adminHandler.getAdminId({
       admin_email: admin.admin_email,
     });
-    console.log({ adminId: adminId });
+    console.log({ adminId });
 
     // get password hash
     const passwordHash = await adminHandler.getPasswordHash({
@@ -104,14 +104,14 @@ module.exports.adminLogin = async (req, res, next) => {
       filterColumn: "admin_id",
       filterColumnValue: adminId,
     });
-    console.log({ passwordHash: passwordHash });
+    console.log({ passwordHash });
 
     // check if password is correct
     const isPasswordCorrect = await bcrypt.matchPassword({
       passwordEntered: admin.admin_password,
       passwordHash,
     });
-    console.log({ isPasswordCorrect: isPasswordCorrect });
+    console.log({ isPasswordCorrect });
 
     if (!isPasswordCorrect) {
       res

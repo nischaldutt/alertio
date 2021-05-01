@@ -11,7 +11,7 @@ module.exports.getServingBranchIds = ({ pin_code }) => {
         ? reject(
             customerUtilities.actionInComplete({
               err,
-              message: "Please enter valid pin code.",
+              message: "Sorry, no branch serves at this pin code.",
             })
           )
         : resolve(result);

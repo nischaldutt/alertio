@@ -14,9 +14,10 @@ const cors = require("cors");
 
 require("./controller/socketioController")(io);
 
-const authRouter = require("./routes/authRoutes");
+const authRouter = require("./routes/authRouter");
 const adminRouter = require("./routes/adminRouter");
 const customerRouter = require("./routes/customerRouter");
+const branchRouter = require("./routes/branchRouter");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -30,6 +31,9 @@ app.use("/admin", adminRouter);
 
 // Customer routes
 app.use("/customer", customerRouter);
+
+// Branch routes
+app.use("/branch", branchRouter);
 
 http.listen(process.env.PORT || 3001, () => {
   console.log(`Server online at ${process.env.PORT}`);

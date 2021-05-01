@@ -1,4 +1,5 @@
 const Promise = require("bluebird");
+const createError = require("http-errors");
 
 const bcrypt = require("../libs/brcypt");
 const connection = require("../database/mysql");
@@ -160,7 +161,11 @@ module.exports.getBranchId = ({ username }) => {
   const query = `SELECT branch_id FROM branches WHERE username='${username}';`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, result) => {
-      err ? reject(err) : resolve(result[0]);
+      err
+        ? reject(err)
+        : !result.length
+        ? reject(createError(400, "Branch username is incorrect."))
+        : resolve(result[0]);
     });
   });
 };
