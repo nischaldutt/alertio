@@ -16,13 +16,13 @@ router.post(
   adminController.generatePasswords
 );
 
-// NEW ADMIN REGISTER
+// new admin register
 router.post("/register", adminController.registerAdmin);
 
-// ADMIN LOGIN
+// admin login
 router.post("/login", adminController.adminLogin);
 
-// ADMIN LOGOUT
+// admin logout
 router.post("/logout", jwt.verifyAccessToken, adminController.adminLogout);
 
 // ADMIN DASHBOARD
