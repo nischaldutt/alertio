@@ -1,6 +1,7 @@
 import backend from "../api";
 import createBrowserHistory from "../history";
 import {
+  TOGGLE_THEME,
   SAVE_ADMIN,
   SAVE_CUSTOMER,
   GET_ALL_BRANCHES,
@@ -9,6 +10,12 @@ import {
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
 } from "./types";
+
+export const toggleTheme = () => {
+  return {
+    type: TOGGLE_THEME,
+  };
+};
 
 export const saveAdmin = (admin) => {
   return {

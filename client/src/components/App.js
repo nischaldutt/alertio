@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Router, Route, Switch } from "react-router-dom";
+
 import createBrowserHistory from "../history";
 import Header from "./Header";
 import Home from "./Home";
@@ -7,11 +9,12 @@ import AdminDashboard from "./AdminDashboard";
 import AdminNotifications from "./AdminNotifications";
 
 import { Grid, ThemeProvider } from "@material-ui/core";
-import theme from "../themes";
+import light from "../themes/lightTheme";
+import dark from "../themes/darkTheme";
 
-const App = () => {
+const App = ({ darkTheme }) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme ? dark : light}>
       <Router history={createBrowserHistory}>
         <Grid container direction="column">
           <Grid item>
@@ -35,4 +38,10 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  darkTheme: state.darkTheme,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

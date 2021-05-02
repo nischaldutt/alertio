@@ -9,7 +9,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "calc(100vh - 70px)",
-    overflowY: "scroll",
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -19,19 +19,13 @@ const Home = (props) => {
   return (
     <Grid
       container
-      direction="column"
       alignItems="center"
       justify="center"
       className={classes.root}
     >
-      <Grid item container justify="space-evenly">
-        <Grid item sm={11} md={3}>
-          {/* <AdminForm /> */}
-        </Grid>
-        <Grid item sm={11} md={3}>
-          {/* <CustomerForm /> */}
-        </Grid>
-      </Grid>
+      <Grid style={{ border: "2px solid red" }} item xl={1}></Grid>
+      <Grid style={{ border: "2px solid green" }} item xl={10}></Grid>
+      <Grid style={{ border: "2px solid blue" }} item xl={1}></Grid>
     </Grid>
   );
 };

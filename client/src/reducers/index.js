@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+import { toggleThemeReducer } from "./themeReducer";
 import {
   adminReducer,
   customerReducer,
@@ -10,6 +11,7 @@ import {
 } from "./alertioReducers";
 
 export default combineReducers({
+  darkTheme: toggleThemeReducer,
   admin: adminReducer,
   customer: customerReducer,
   branches: branchesReducer,

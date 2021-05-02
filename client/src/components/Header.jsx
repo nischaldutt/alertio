@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
+import { toggleTheme } from "../actions";
+
 import {
   AppBar,
+  Switch,
   Badge,
   Toolbar,
   Typography,
@@ -20,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
     height: 70,
+    boxShadow: "0px 0px",
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -28,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     top: "5px",
     transition: "transform .2s",
-    color: `${theme.palette.secondary.main}`,
     fontSize: 30,
     "&:hover": {
       transform: "scale(1.5)",
@@ -37,25 +40,21 @@ const useStyles = makeStyles((theme) => ({
   headerItems: {
     marginRight: theme.spacing(4),
     fontWeight: "bold",
-    color: `${theme.palette.secondary.main}`,
     display: "block",
-    "&:hover": {
-      color: `${theme.palette.secondary.main}`,
-    },
+    color: theme.palette.secondary.main,
+    "&:hover": {},
   },
   badge: {
     color: "red",
   },
 }));
 
-const Header = (props) => {
+const Header = ({ darkTheme, toggleTheme }) => {
   const { pathname } = useLocation();
   const classes = useStyles();
   const appHeader = "AlertIO: An Alert Management Application";
-  const [invisible, setInvisible] = React.useState(false);
-
-  const handleBadgeVisibility = () => {
-    setInvisible(!invisible);
+  const handleChange = () => {
+    toggleTheme();
   };
 
   const renderNotificationBadge = () => {
@@ -86,14 +85,24 @@ const Header = (props) => {
         </Link>
 
         <div className={classes.grow} />
+        <Switch
+          checked={darkTheme}
+          onChange={handleChange}
+          color="secondary"
+          inputProps={{ "aria-label": "secondary checkbox" }}
+        />
         {pathname === "/admin/dashboard" ? renderNotificationBadge() : null}
       </Toolbar>
     </AppBar>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state, ownProps) => ({
+  darkTheme: state.darkTheme,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  toggleTheme,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
