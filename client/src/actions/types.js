@@ -1,3 +1,4 @@
+export const TOGGLE_THEME = "TOGGLE_THEME";
 export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";
 export const ERROR_OCCURRED = "ERROR_OCCURRED";
 export const GET_BRANCH_INFO = "GET_BRANCH_INFO";
