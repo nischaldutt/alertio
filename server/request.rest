@@ -1,3 +1,14 @@
+POST http://localhost:3001/admin/register
+Content-Type: application/json
+
+{
+  "admin_name": "nischal",
+  "admin_email": "nischal@gmail.com",
+  "admin_password": "password"
+}
+
+###
+
 POST http://localhost:3001/admin/login
 Content-Type: application/json
 
