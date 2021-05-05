@@ -24,6 +24,7 @@ module.exports.verifyAccessToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   // authorization is in form ==> "BEARER ACCESS_TOKEN"
   const accessToken = authHeader && authHeader.split(" ")[1];
+
   if (!accessToken) {
     res
       .status(CONSTANTS.responseFlags.UNAUTHORIZED_REQUEST)

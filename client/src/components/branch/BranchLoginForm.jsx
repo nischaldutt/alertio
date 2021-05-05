@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
-import socket from "../socketClient";
+import { Link } from "react-router-dom";
 
-import { fetchAllBranches } from "../actions";
+import socket from "../../socketClient";
+import { fetchAllBranches } from "../../actions";
 
 import { TextField } from "mui-rff";
 
@@ -17,9 +18,6 @@ import {
 
 const validate = (values) => {
   const errors = {};
-  if (!values.admin_name) {
-    errors.admin_name = "Required";
-  }
   if (!values.branch_username) {
     errors.branch_username = "Required";
   }
@@ -34,20 +32,8 @@ const formFields = [
     size: 12,
     field: (
       <TextField
-        type="text"
-        label="Name"
-        name="admin_name"
-        margin="none"
-        required={true}
-      />
-    ),
-  },
-  {
-    size: 12,
-    field: (
-      <TextField
-        type="email"
-        label="Branch username"
+        type="name"
+        label="Enter branch username"
         name="branch_username"
         margin="none"
         required={true}
@@ -59,7 +45,7 @@ const formFields = [
     field: (
       <TextField
         type="password"
-        label="Branch password"
+        label="Enter password"
         name="branch_password"
         margin="none"
         required={true}
@@ -70,16 +56,17 @@ const formFields = [
 
 let username;
 
-const AdminForm = ({ fetchAllBranches, branches }) => {
-  useEffect(() => {
-    if (branches.length) {
-      socket.emit("admin-connected", { username });
-    }
-  }, [branches]);
+const BranchLoginForm = ({ fetchAllBranches }) => {
+  // useEffect(() => {
+  //   if (branches.length) {
+  //     socket.emit("admin-connected", { username });
+  //   }
+  // }, [branches]);
 
   const onSubmit = (values) => {
     fetchAllBranches(values);
-    username = values.branch_username;
+    // fetchAllBranches(values);
+    // username = values.branch_username;
   };
 
   return (
@@ -94,10 +81,10 @@ const AdminForm = ({ fetchAllBranches, branches }) => {
               <Typography
                 variant="h4"
                 align="center"
-                component="h1"
+                component="h4"
                 gutterBottom
               >
-                Admin Login
+                Enter Branch Credentials
               </Typography>
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
@@ -118,7 +105,7 @@ const AdminForm = ({ fetchAllBranches, branches }) => {
                 <Grid item style={{ marginTop: 16 }}>
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     type="submit"
                     disabled={submitting}
                   >
@@ -135,12 +122,10 @@ const AdminForm = ({ fetchAllBranches, branches }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  branches: state.branches,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   fetchAllBranches,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminForm);
+export default connect(mapStateToProps, mapDispatchToProps)(BranchLoginForm);

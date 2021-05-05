@@ -4,10 +4,13 @@ const light = createMuiTheme({
   palette: {
     type: "light",
     primary: {
-      main: "#ffffff",
+      light: "",
+      dark: "",
+      main: "#ffffff", // white
+      contrastText: "",
     },
     secondary: {
-      main: "#1E70BF",
+      main: "#1E70BF", // sky blue
     },
   },
   typography: {

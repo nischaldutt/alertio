@@ -2,17 +2,21 @@ import { combineReducers } from "redux";
 
 import { toggleThemeReducer } from "./themeReducer";
 import {
-  adminReducer,
+  saveAdminReducer,
+  adminLoginReducer,
   customerReducer,
   branchesReducer,
   errorReducer,
   branchInfoReducer,
   alertReducer,
+  tokensReducer,
 } from "./alertioReducers";
 
 export default combineReducers({
   darkTheme: toggleThemeReducer,
-  admin: adminReducer,
+  loggedIn: adminLoginReducer,
+  // tokens: tokensReducer,
+  admin: saveAdminReducer,
   customer: customerReducer,
   branches: branchesReducer,
   error: errorReducer,

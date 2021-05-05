@@ -22,6 +22,9 @@ router.post("/register", adminController.registerAdmin);
 // admin login
 router.post("/login", adminController.adminLogin);
 
+// admin login check
+router.get("/login", adminController.adminSessionLogin);
+
 // admin logout
 router.post("/logout", jwt.verifyAccessToken, adminController.adminLogout);
 

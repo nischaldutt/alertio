@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
-import { toggleTheme } from "../actions";
+import { toggleTheme, adminLogout } from "../actions";
 
 import {
   AppBar,
+  Button,
   Switch,
   Badge,
   Toolbar,
@@ -49,12 +50,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ darkTheme, toggleTheme }) => {
+const Header = ({
+  darkTheme,
+  toggleTheme,
+  loggedIn,
+  adminLogout,
+  branches,
+}) => {
   const { pathname } = useLocation();
   const classes = useStyles();
   const appHeader = "AlertIO: An Alert Management Application";
+
   const handleChange = () => {
     toggleTheme();
+  };
+
+  const handleLogout = () => {
+    adminLogout();
   };
 
   const renderNotificationBadge = () => {
@@ -91,7 +103,14 @@ const Header = ({ darkTheme, toggleTheme }) => {
           color="secondary"
           inputProps={{ "aria-label": "secondary checkbox" }}
         />
-        {pathname === "/admin/dashboard" ? renderNotificationBadge() : null}
+        {pathname === "/admin/dashboard" && branches.length
+          ? renderNotificationBadge()
+          : null}
+        {loggedIn ? (
+          <Button onClick={handleLogout} variant="contained" color="secondary">
+            Logout
+          </Button>
+        ) : null}
       </Toolbar>
     </AppBar>
   );
@@ -99,10 +118,13 @@ const Header = ({ darkTheme, toggleTheme }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   darkTheme: state.darkTheme,
+  loggedIn: state.loggedIn,
+  branches: state.branches,
 });
 
 const mapDispatchToProps = {
   toggleTheme,
+  adminLogout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
