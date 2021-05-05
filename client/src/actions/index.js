@@ -2,13 +2,16 @@ import backend from "../api";
 import createBrowserHistory from "../history";
 import {
   TOGGLE_THEME,
+  LOGGED_IN,
   SAVE_ADMIN,
   SAVE_CUSTOMER,
-  GET_ALL_BRANCHES,
+  SET_BRANCHES,
   ERROR_OCCURRED,
   GET_BRANCH_INFO,
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
+  SET_ACCESS_TOKEN,
+  SET_REFRESH_TOKEN,
 } from "./types";
 
 export const toggleTheme = () => {
@@ -17,44 +20,143 @@ export const toggleTheme = () => {
   };
 };
 
-export const saveAdmin = (admin) => {
-  return {
-    type: SAVE_ADMIN,
-    payload: admin,
-  };
-};
-
-export const saveCustomer = (customer) => {
-  return {
-    type: SAVE_CUSTOMER,
-    payload: customer,
-  };
-};
-
-export const fetchAllBranches = ({
-  admin_name,
-  branch_username,
-  branch_password,
-}) => async (dispatch, getState) => {
+export const adminLogin = ({ admin_email, admin_password }) => async (
+  dispatch,
+  getState
+) => {
   try {
-    const response = await backend.post("/admin/login", {
-      params: {
-        admin_name,
-        branch_username,
-        branch_password,
+    const response = await backend.post(
+      "/admin/login",
+      {
+        admin_email,
+        admin_password,
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     dispatch({
-      type: GET_ALL_BRANCHES,
-      payload: response.data,
+      type: LOGGED_IN,
+      payload: true,
+    });
+
+    dispatch({
+      type: SAVE_ADMIN,
+      payload: response.data.data,
     });
 
     createBrowserHistory.push("/admin/dashboard");
   } catch (err) {
+    console.log(err.response.data);
+  }
+};
+
+export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
+  try {
+    const response = await backend.get("/admin/login");
+    console.log({ gotTheSessionData: response });
+    if (response.data.loggedIn) {
+      dispatch({
+        type: LOGGED_IN,
+        payload: true,
+      });
+
+      createBrowserHistory.push("/admin/dashboard");
+    } else {
+      dispatch({
+        type: LOGGED_IN,
+        payload: false,
+      });
+
+      dispatch({
+        type: SAVE_ADMIN,
+        payload: {},
+      });
+      createBrowserHistory.push("/admin");
+    }
+  } catch (err) {
+    console.log(err.response.data);
+  }
+};
+
+export const adminLogout = () => async (dispatch, getState) => {
+  try {
+    const {
+      admin: { accessToken, refreshToken },
+    } = getState();
+
+    const response = await backend.post(
+      "/admin/logout",
+      { refreshToken },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
     dispatch({
-      type: ERROR_OCCURRED,
-      payload: err.response.data,
+      type: LOGGED_IN,
+      payload: false,
     });
+
+    dispatch({
+      type: SAVE_ADMIN,
+      payload: {},
+    });
+
+    dispatch({
+      type: SET_BRANCHES,
+      payload: [],
+    });
+
+    dispatch({
+      type: SAVE_ALERTS_IN_STORE,
+      payload: [],
+    });
+
+    createBrowserHistory.push("/admin");
+  } catch (err) {
+    console.log(err.response.data);
+  }
+};
+
+export const fetchAllBranches = ({
+  branch_username,
+  branch_password,
+}) => async (dispatch, getState) => {
+  try {
+    const {
+      admin: { accessToken },
+    } = getState();
+
+    const response = await backend.post(
+      "/branch/login",
+      {
+        branch_username,
+        branch_password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    dispatch({
+      type: SET_BRANCHES,
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(err.response.data);
+    // dispatch({
+    //   type: ERROR_OCCURRED,
+    //   payload: err.response.data,
+    // });
   }
 };
 

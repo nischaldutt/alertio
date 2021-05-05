@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Hero from "./Hero";
-import AdminForm from "./AdminForm";
-import CustomerForm from "./CustomerForm";
 
 import { Grid, makeStyles } from "@material-ui/core";
 
@@ -17,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = (props) => {
+const Home = () => {
   const classes = useStyles();
 
   return (

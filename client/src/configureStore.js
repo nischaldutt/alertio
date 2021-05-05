@@ -8,15 +8,7 @@ import reducers from "./reducers";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [
-    "darkTheme",
-    "admin",
-    "customer",
-    "branches",
-    "alerts",
-    "branchInfo",
-    "error",
-  ],
+  whitelist: ["darkTheme", "admin", "branches"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

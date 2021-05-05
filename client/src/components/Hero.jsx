@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { Button, Grid, Typography, makeStyles } from "@material-ui/core";
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Hero = () => {
+const Hero = ({ loggedIn, branches }) => {
   const classes = useStyles();
   const heroHeaderText = "Never miss a critical alert!";
   const adminButtonText = "Enter as an admin";
@@ -38,7 +39,7 @@ const Hero = () => {
 
         <div className={classes.buttons}>
           <Grid item>
-            <Link to="/admin">
+            <Link to={loggedIn ? "/admin/dashboard" : "/admin"}>
               <Button variant="contained" color="secondary" size="large">
                 <Typography color="primary" variant="button">
                   {adminButtonText}
@@ -296,4 +297,11 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+const mapStateToProps = (state, ownProps) => ({
+  loggedIn: state.loggedIn,
+  branches: state.branches,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hero);

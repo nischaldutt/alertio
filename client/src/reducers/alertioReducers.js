@@ -1,14 +1,43 @@
 import {
+  LOGGED_IN,
   SAVE_ADMIN,
   SAVE_CUSTOMER,
-  GET_ALL_BRANCHES,
+  SET_BRANCHES,
   ERROR_OCCURRED,
   GET_BRANCH_INFO,
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
+  SET_ACCESS_TOKEN,
+  SET_REFRESH_TOKEN,
 } from "../actions/types";
 
-export const adminReducer = (state = {}, action) => {
+export const tokensReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SET_ACCESS_TOKEN:
+      return {
+        accessToken: action.payload,
+        ...state,
+      };
+    case SET_REFRESH_TOKEN:
+      return {
+        refreshToken: action.payload,
+        ...state,
+      };
+    default:
+      return state;
+  }
+};
+
+export const adminLoginReducer = (state = false, action) => {
+  switch (action.type) {
+    case LOGGED_IN:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const saveAdminReducer = (state = {}, action) => {
   switch (action.type) {
     case SAVE_ADMIN:
       return action.payload;
@@ -28,7 +57,7 @@ export const customerReducer = (state = {}, action) => {
 
 export const branchesReducer = (state = [], action) => {
   switch (action.type) {
-    case GET_ALL_BRANCHES:
+    case SET_BRANCHES:
       return action.payload;
     default:
       return state;

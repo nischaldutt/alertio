@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-import socket from "../socketClient";
-import { saveAlertsInStore, saveRealTimeAlertInStore } from "../actions";
+import socket from "../../socketClient";
+import {
+  checkIfAdminLoggedIn,
+  saveAlertsInStore,
+  saveRealTimeAlertInStore,
+} from "../../actions";
 
-import Loading from "./Loading";
+import Loading from "../Loading";
 import {
   Paper,
   Table,
@@ -19,7 +23,7 @@ import {
 
 const columns = [
   { id: "branch_name", label: "Branch Name", minWidth: 170 },
-  { id: "branch_address", label: "Branch Address", minWidth: 100 },
+  { id: "branch_address", label: "Branch Address", minWidth: 200 },
   { id: "institute_name", label: "Institute", minWidth: 100 },
   { id: "branch_incharge_name", label: "Branch Incharge", minWidth: 100 },
   { id: "city_name", label: "City", minWidth: 100 },
@@ -38,16 +42,16 @@ const columns = [
   {
     id: "contacts",
     label: "Contact Numbers",
-    minWidth: 170,
+    minWidth: 270,
     align: "left",
-    format: (contacts) => contacts.join(),
+    format: (contacts) => contacts.join(", "),
   },
   {
     id: "pin_codes",
     label: "Pin Codes",
     minWidth: 170,
     align: "left",
-    format: (pin_codes) => pin_codes.join(),
+    format: (pin_codes) => pin_codes.join(", "),
   },
 ];
 
@@ -61,24 +65,16 @@ const useStyles = makeStyles({
   },
 });
 
-const AdminDashboard = ({
+const BranchTable = ({
   branches,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
+  checkIfAdminLoggedIn,
+  loggedIn,
 }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
-
-  useEffect(() => {
-    socket.on("fetch-alerts", (alerts) => {
-      saveAlertsInStore(alerts);
-    });
-
-    socket.on("fetch-alerts-realtime", (alert) => {
-      saveRealTimeAlertInStore(alert);
-    });
-  }, [saveAlertsInStore, saveRealTimeAlertInStore]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -150,11 +146,13 @@ const AdminDashboard = ({
 
 const mapStateToProps = (state) => ({
   branches: state.branches,
+  loggedIn: state.loggedIn,
 });
 
 const mapDispatchToProps = {
+  checkIfAdminLoggedIn,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(BranchTable);

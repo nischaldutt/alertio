@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
 
-import socket from "../socketClient";
+import socket from "../../socketClient";
 import BranchInfoModal from "./BranchInfoModal";
-import { fetchBranchInfo } from "../actions";
+import { fetchBranchInfo } from "../../actions";
 
 import { TextField } from "mui-rff";
 
