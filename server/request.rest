@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3001/admin/dashboard
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MzU3LCJleHAiOjE2MTk3ODczNzd9.fLBxpU3w-qRJTarrEx007e4U6AFkWbkakb7rzHiiQWo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwMTI4NDczLCJleHAiOjE2MjAyMTQ4NzN9.osBqZGIdDDnBrOtQiPqXrjAb1qfSaE52Og3rY71-yuo
 
 ###
 
@@ -34,17 +34,17 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3001/admin/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5NzgxMzE0LCJleHAiOjE2MTk4Njc3MTR9.9Da3U2-6h39HyNiurqoAdyTx9RlFQuUsp4oHiCYbxpM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwMTEyOTM0LCJleHAiOjE2MjAxOTkzMzR9.ScqOh90Wsvqghg7aYmClyY0A6FiThTP7E2yZmCuXZo4
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MjkxLCJleHAiOjE2MjAzOTIwOTF9.9a_lwX-8CgMQI4EVXG96mYChDr_qao1NUjV2_RiNHGU",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwMTEyOTM0LCJleHAiOjE2MjA3MTc3MzR9.-8zO1dpfbTdfL9Bg_ptA8BFNOX_vY_RecnS0-YHTk-w",
 }
 
 ###
 
 POST http://localhost:3001/branch/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5ODU1MzQ1LCJleHAiOjE2MTk5NDE3NDV9.OzbALAfwoCgJmbzkip2YAHaJ3c5-S1FiydIhKXKWh5o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwMTI4NDczLCJleHAiOjE2MjAyMTQ4NzN9.osBqZGIdDDnBrOtQiPqXrjAb1qfSaE52Og3rY71-yuo
 
 {
   "branch_username": "isengard",

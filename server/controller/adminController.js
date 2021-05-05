@@ -129,12 +129,38 @@ module.exports.adminLogin = async (req, res, next) => {
       // send the accessToken and refreshToken to the client
       const payload = { accessToken, refreshToken };
       console.log({ payloadSentToClient: payload });
-      res
-        .status(CONSTANTS.responseFlags.ADMIN_LOGIN)
-        .json(adminUtilities.adminLoginSuccessful(payload));
+
+      // create a session
+      req.session.user = {
+        adminId,
+        admin_email: admin.admin_email,
+      };
+      console.log({ sessionCreated: req.session.user });
+
+      res.status(CONSTANTS.responseFlags.ADMIN_LOGIN).json(
+        adminUtilities.adminLoginSuccessful({
+          adminId,
+          ...payload,
+        })
+      );
     }
   } catch (err) {
     res.status(CONSTANTS.responseFlags.ADMIN_NOT_LOGGED_IN).json(err);
+  }
+};
+
+module.exports.adminSessionLogin = (req, res, next) => {
+  // check if session exists in the request object
+  console.log({ activeSession: req.session });
+  if (req.session.user) {
+    res.json({
+      loggedIn: true,
+      user: req.session.user,
+    });
+  } else {
+    res.json({
+      loggedIn: false,
+    });
   }
 };
 
@@ -148,6 +174,9 @@ module.exports.adminLogout = async (req, res, next) => {
         })
       );
     } else {
+      // destroy admin session
+      req.session.destroy();
+      console.log({ reqSession: req.session });
       // remove the refresh token from redis
       redisClient.del(id, (err, value) => {
         if (err) console.log(err);
