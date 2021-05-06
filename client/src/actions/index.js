@@ -12,11 +12,20 @@ import {
   GET_REALTIME_ALERT,
   SET_ACCESS_TOKEN,
   SET_REFRESH_TOKEN,
+  SET_ROOM,
+  MARK_ALERT_AS_READ,
 } from "./types";
 
 export const toggleTheme = () => {
   return {
     type: TOGGLE_THEME,
+  };
+};
+
+export const setRoom = (room) => {
+  return {
+    type: SET_ROOM,
+    payload: room,
   };
 };
 
@@ -57,7 +66,7 @@ export const adminLogin = ({ admin_email, admin_password }) => async (
 export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
   try {
     const response = await backend.get("/admin/login");
-    console.log({ gotTheSessionData: response });
+    // console.log({ gotTheSessionData: response });
     if (response.data.loggedIn) {
       dispatch({
         type: LOGGED_IN,
@@ -74,6 +83,21 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
       dispatch({
         type: SAVE_ADMIN,
         payload: {},
+      });
+
+      dispatch({
+        type: SET_BRANCHES,
+        payload: [],
+      });
+
+      dispatch({
+        type: SAVE_ALERTS_IN_STORE,
+        payload: [],
+      });
+
+      dispatch({
+        type: SET_ROOM,
+        payload: "",
       });
       createBrowserHistory.push("/admin");
     }
@@ -118,6 +142,11 @@ export const adminLogout = () => async (dispatch, getState) => {
       payload: [],
     });
 
+    dispatch({
+      type: SET_ROOM,
+      payload: "",
+    });
+
     createBrowserHistory.push("/admin");
   } catch (err) {
     console.log(err.response.data);
@@ -158,6 +187,13 @@ export const fetchAllBranches = ({
     //   payload: err.response.data,
     // });
   }
+};
+
+export const markAlertAsRead = ({ alert_id }) => {
+  return {
+    type: MARK_ALERT_AS_READ,
+    payload: alert_id,
+  };
 };
 
 export const fetchBranchInfo = ({ customer_username, pin_code }) => async (

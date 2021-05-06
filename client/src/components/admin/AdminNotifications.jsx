@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import AlertComponent from "../AlertComponent";
@@ -8,9 +8,9 @@ import { checkIfAdminLoggedIn } from "../../actions";
 import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-    height: "10px",
+  root: {
+    padding: "20px",
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -18,16 +18,16 @@ const AdminNotifications = ({ checkIfAdminLoggedIn, loggedIn, alerts }) => {
   const classes = useStyles();
 
   // check if admin session is present after refresh
-  React.useEffect(() => {
-    if (!loggedIn) {
-      checkIfAdminLoggedIn();
-    }
-  }, [checkIfAdminLoggedIn, loggedIn]);
+  // React.useEffect(() => {
+  //   if(loggedIn && !alerts.length) {
+
+  //   }
+  // }, [checkIfAdminLoggedIn]);
 
   const renderAlerts = () => {
-    return alerts.map((alert, index) => {
+    return alerts.map((alert) => {
       return (
-        <Grid item key={index}>
+        <Grid item key={alert.alert_id}>
           <AlertComponent severity="info" alert={alert} alertHeader="Alert" />
         </Grid>
       );
@@ -35,12 +35,16 @@ const AdminNotifications = ({ checkIfAdminLoggedIn, loggedIn, alerts }) => {
   };
 
   return (
-    <div>
-      <div className={classes.grow} />
-      <Grid container spacing={3} justify="center">
-        {!alerts.length ? <Loading /> : renderAlerts()}
-      </Grid>
-    </div>
+    <Grid
+      container
+      justify="center"
+      alignItems="center"
+      direction="column"
+      spacing={1}
+      className={classes.root}
+    >
+      {!alerts.length ? <Loading /> : renderAlerts()}
+    </Grid>
   );
 };
 

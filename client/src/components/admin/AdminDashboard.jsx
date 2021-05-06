@@ -13,19 +13,7 @@ import {
   saveRealTimeAlertInStore,
 } from "../../actions";
 
-import {
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  CssBaseline,
-  makeStyles,
-} from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,22 +38,15 @@ const AdminDashboard = ({
     }
   }, [checkIfAdminLoggedIn, loggedIn]);
 
-  // if user logged in but no branched exit in store
   React.useEffect(() => {
-    if (loggedIn && !branches.length) {
-      // fetchAllBranches(values)
-    }
-  });
+    socket.on("fetch-alerts", (alerts) => {
+      saveAlertsInStore(alerts);
+    });
 
-  // React.useEffect(() => {
-  //   socket.on("fetch-alerts", (alerts) => {
-  //     saveAlertsInStore(alerts);
-  //   });
-
-  //   socket.on("fetch-alerts-realtime", (alert) => {
-  //     saveRealTimeAlertInStore(alert);
-  //   });
-  // }, [saveAlertsInStore, saveRealTimeAlertInStore]);
+    // socket.on("fetch-alerts-realtime", (alert) => {
+    //   saveRealTimeAlertInStore(alert);
+    // });
+  }, [saveAlertsInStore, saveRealTimeAlertInStore]);
 
   return (
     <Grid container className={classes.root}>

@@ -4,7 +4,7 @@ import { Form } from "react-final-form";
 import { Link } from "react-router-dom";
 
 import socket from "../../socketClient";
-import { fetchAllBranches } from "../../actions";
+import { fetchAllBranches, setRoom } from "../../actions";
 
 import { TextField } from "mui-rff";
 
@@ -54,10 +54,8 @@ const formFields = [
   },
 ];
 
-let username;
-
-const BranchLoginForm = ({ fetchAllBranches }) => {
-  // useEffect(() => {
+const BranchLoginForm = ({ branches, fetchAllBranches, setRoom }) => {
+  // React.useEffect(() => {
   //   if (branches.length) {
   //     socket.emit("admin-connected", { username });
   //   }
@@ -65,6 +63,7 @@ const BranchLoginForm = ({ fetchAllBranches }) => {
 
   const onSubmit = (values) => {
     fetchAllBranches(values);
+    setRoom(values.branch_username);
     // fetchAllBranches(values);
     // username = values.branch_username;
   };
@@ -122,10 +121,13 @@ const BranchLoginForm = ({ fetchAllBranches }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  branches: state.branches,
+});
 
 const mapDispatchToProps = {
   fetchAllBranches,
+  setRoom,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BranchLoginForm);

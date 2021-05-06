@@ -9,6 +9,8 @@ import {
   GET_REALTIME_ALERT,
   SET_ACCESS_TOKEN,
   SET_REFRESH_TOKEN,
+  SET_ROOM,
+  MARK_ALERT_AS_READ,
 } from "../actions/types";
 
 export const tokensReducer = (state = {}, action) => {
@@ -90,6 +92,23 @@ export const alertReducer = (state = [], action) => {
       return action.payload;
     case GET_REALTIME_ALERT:
       return [action.payload, ...state];
+    case MARK_ALERT_AS_READ: {
+      return state.map((alert) => {
+        if (alert.alert_id === action.payload) {
+          alert.is_read = 1;
+        }
+        return alert;
+      });
+    }
+    default:
+      return state;
+  }
+};
+
+export const roomReducer = (state = "", action) => {
+  switch (action.type) {
+    case SET_ROOM:
+      return action.payload;
     default:
       return state;
   }
