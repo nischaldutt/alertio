@@ -9,6 +9,7 @@ import AdminLogin from "./admin/AdminLogin";
 import CustomerSearch from "./customer/CustomerSearch";
 import AdminDashboard from "./admin/AdminDashboard";
 import AdminNotifications from "./admin/AdminNotifications";
+import ErrorComponent from "./ErrorComponent";
 
 import { Grid, ThemeProvider } from "@material-ui/core";
 import light from "../themes/lightTheme";
@@ -22,6 +23,8 @@ const App = ({ darkTheme }) => {
           <Grid item>
             <Header />
           </Grid>
+
+          <ErrorComponent />
 
           <Grid item container>
             <Switch>
@@ -44,6 +47,7 @@ const App = ({ darkTheme }) => {
 
 const mapStateToProps = (state) => ({
   darkTheme: state.darkTheme,
+  error: state.error,
 });
 
 const mapDispatchToProps = {};

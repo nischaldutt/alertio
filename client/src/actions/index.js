@@ -13,6 +13,7 @@ import {
   SET_ACCESS_TOKEN,
   SET_REFRESH_TOKEN,
   SET_ROOM,
+  SET_ERROR,
   MARK_ALERT_AS_READ,
 } from "./types";
 
@@ -26,6 +27,13 @@ export const setRoom = (room) => {
   return {
     type: SET_ROOM,
     payload: room,
+  };
+};
+
+export const emptyErrorObject = () => {
+  return {
+    type: SET_ERROR,
+    payload: null,
   };
 };
 
@@ -59,7 +67,11 @@ export const adminLogin = ({ admin_email, admin_password }) => async (
 
     createBrowserHistory.push("/admin/dashboard");
   } catch (err) {
-    console.log(err.response.data);
+    // console.log(err.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: err.response.data,
+    });
   }
 };
 
@@ -102,7 +114,11 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
       createBrowserHistory.push("/admin");
     }
   } catch (err) {
-    console.log(err.response.data);
+    // console.log(err.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: err.response.data,
+    });
   }
 };
 
@@ -149,7 +165,11 @@ export const adminLogout = () => async (dispatch, getState) => {
 
     createBrowserHistory.push("/admin");
   } catch (err) {
-    console.log(err.response.data);
+    // console.log(err.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: err.response.data,
+    });
   }
 };
 
@@ -182,10 +202,10 @@ export const fetchAllBranches = ({
     });
   } catch (err) {
     console.log(err.response.data);
-    // dispatch({
-    //   type: ERROR_OCCURRED,
-    //   payload: err.response.data,
-    // });
+    dispatch({
+      type: SET_ERROR,
+      payload: err.response.data,
+    });
   }
 };
 
@@ -213,7 +233,7 @@ export const fetchBranchInfo = ({ customer_username, pin_code }) => async (
     });
   } catch (err) {
     dispatch({
-      type: ERROR_OCCURRED,
+      type: SET_ERROR,
       payload: err.response.data,
     });
   }

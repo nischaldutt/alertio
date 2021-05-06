@@ -11,11 +11,10 @@ import { Grid, Typography, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "calc(100vh - 70px)",
-    border: "2px solid black",
   },
 }));
 
-const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn }) => {
+const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn, error }) => {
   const classes = useStyles();
 
   // check if admin session is present after refresh
@@ -45,6 +44,7 @@ const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn }) => {
 
 const mapStateToProps = (state) => ({
   loggedIn: state.loggedIn,
+  error: state.error,
 });
 
 const mapDispatchToProps = {
