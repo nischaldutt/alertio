@@ -73,5 +73,11 @@ module.exports = function (io) {
       const alerts = await alertHandler.fetchAlerts({ branch_id });
       io.to(username).emit("fetch-alerts", alerts);
     });
+
+    socket.on("alert-opened", async ({ alert_id }) => {
+      console.log("alert_id ==> " + alert_id);
+      const response = await alertHandler.setAlertStatusRead({ alert_id });
+      console.log({ alertStatusRead: response });
+    });
   });
 };
