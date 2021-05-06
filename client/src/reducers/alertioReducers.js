@@ -10,6 +10,7 @@ import {
   SET_ACCESS_TOKEN,
   SET_REFRESH_TOKEN,
   SET_ROOM,
+  SET_ERROR,
   MARK_ALERT_AS_READ,
 } from "../actions/types";
 
@@ -66,9 +67,9 @@ export const branchesReducer = (state = [], action) => {
   }
 };
 
-export const errorReducer = (state = {}, action) => {
+export const errorReducer = (state = null, action) => {
   switch (action.type) {
-    case ERROR_OCCURRED: {
+    case SET_ERROR: {
       return action.payload;
     }
     default:

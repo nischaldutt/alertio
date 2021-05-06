@@ -11,3 +11,4 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN";
 export const SET_ROOM = "SET_ROOM";
 export const MARK_ALERT_AS_READ = "MARK_ALERT_AS_READ";
+export const SET_ERROR = "SET_ERROR";
