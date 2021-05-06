@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Form } from "react-final-form";
 import { Link } from "react-router-dom";
 
-import socket from "../../socketClient";
+// import socket from "../../socketClient";
 import { fetchAllBranches } from "../../actions";
 
 import { TextField } from "mui-rff";
@@ -69,18 +69,18 @@ const formFields = [
   },
 ];
 
-let username;
+// let username;
 
 const AdminRegisterForm = ({ fetchAllBranches, branches }) => {
-  useEffect(() => {
-    if (branches.length) {
-      socket.emit("admin-connected", { username });
-    }
-  }, [branches]);
+  // useEffect(() => {
+  //   if (branches.length) {
+  //     socket.emit("admin-connected", { username });
+  //   }
+  // }, [branches]);
 
   const onSubmit = (values) => {
-    fetchAllBranches(values);
-    username = values.branch_username;
+    // fetchAllBranches(values);
+    // username = values.branch_username;
   };
 
   return (

@@ -67,6 +67,8 @@ const useStyles = makeStyles({
 
 const BranchTable = ({
   branches,
+  admin,
+  room,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
   checkIfAdminLoggedIn,
@@ -75,6 +77,13 @@ const BranchTable = ({
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
+
+  // create a socket room with roomName = adminId
+  React.useEffect(() => {
+    if (branches.length) {
+      socket.emit("admin-connected", { username: room });
+    }
+  }, [branches, room]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -147,6 +156,8 @@ const BranchTable = ({
 const mapStateToProps = (state) => ({
   branches: state.branches,
   loggedIn: state.loggedIn,
+  admin: state.admin,
+  room: state.room,
 });
 
 const mapDispatchToProps = {

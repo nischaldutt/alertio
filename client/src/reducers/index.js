@@ -9,7 +9,7 @@ import {
   errorReducer,
   branchInfoReducer,
   alertReducer,
-  tokensReducer,
+  roomReducer,
 } from "./alertioReducers";
 
 export default combineReducers({
@@ -17,6 +17,7 @@ export default combineReducers({
   loggedIn: adminLoginReducer,
   // tokens: tokensReducer,
   admin: saveAdminReducer,
+  room: roomReducer,
   customer: customerReducer,
   branches: branchesReducer,
   error: errorReducer,
