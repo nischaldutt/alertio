@@ -17,7 +17,7 @@ module.exports.saveAlerts = ({ alertObj, timestamp, branchIds }) => {
 };
 
 module.exports.fetchAlerts = ({ branch_id }) => {
-  const query = `SELECT alert_id, alert, timestamp FROM alerts WHERE associated_branch_id='${branch_id}' ORDER BY alert_id DESC;`;
+  const query = `SELECT alert_id, alert, timestamp, is_read FROM alerts WHERE associated_branch_id='${branch_id}' ORDER BY alert_id DESC;`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, result) => {
       err ? reject(err) : resolve(result);
@@ -27,6 +27,15 @@ module.exports.fetchAlerts = ({ branch_id }) => {
 
 module.exports.getBranchUsernames = ({ branchIds }) => {
   const query = `SELECT branch_id, username FROM branches WHERE branch_id IN ( ${branchIds} );`;
+  return new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      err ? reject(err) : resolve(result);
+    });
+  });
+};
+
+module.exports.setAlertStatusRead = ({ alert_id }) => {
+  const query = `UPDATE alerts SET is_read = 1 WHERE alert_id = '${alert_id}';`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, result) => {
       err ? reject(err) : resolve(result);
