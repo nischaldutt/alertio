@@ -14,11 +14,9 @@ const validObject = (result) => {
 
 const invalidObject = (err) => {
   return {
-    data: {
-      error: err.details[0].message,
-    },
+    data: err.details[0].message,
     status: CONSTANTS.responseFlags.INVALID_INPUT,
-    message: "Validation error.",
+    message: "Validation error",
   };
 };
 

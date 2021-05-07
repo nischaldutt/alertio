@@ -2,11 +2,12 @@ const Promise = require("bluebird");
 const connection = require("../database/mysql");
 
 module.exports.saveAlerts = ({ alertObj, timestamp, branchIds }) => {
-  const query = `INSERT INTO alerts (alert, timestamp, associated_branch_id) VALUES ?`;
+  const query = `INSERT INTO alerts (alert, timestamp, associated_branch_id, is_read) VALUES ?`;
   const values = branchIds.map((id) => [
     JSON.stringify(alertObj),
     timestamp,
     id,
+    0,
   ]);
   console.log(values);
   return new Promise((resolve, reject) => {

@@ -60,6 +60,7 @@ module.exports = function (io) {
               alert_id: obj.alert_id,
               alert: JSON.stringify(alertObj),
               timestamp: timestamp,
+              is_read: 0,
             });
           }
         });
