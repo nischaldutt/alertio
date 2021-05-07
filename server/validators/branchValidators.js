@@ -21,6 +21,7 @@ module.exports.validateBranchLogin = (branch) => {
 
   return new Promise((resolve, reject) => {
     const validationResult = schema.validate(branch);
+    console.log(validationResult.error);
     validationResult.error
       ? reject(createError(400, validationResult.error.details[0].message))
       : resolve(validObject("Input Validated"));

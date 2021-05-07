@@ -55,4 +55,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
 
 GET http://localhost:3001/customer/get_branch_info
   ?customer_username=nischal
-  &pin_code=700013
+  &pin_code=700007
