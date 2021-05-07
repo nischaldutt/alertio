@@ -30,13 +30,13 @@ const App = ({ darkTheme }) => {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/admin" exact component={AdminLogin} />
-              <Route path="/customer" exact component={CustomerSearch} />
               <Route path="/admin/dashboard" exact component={AdminDashboard} />
               <Route
                 path="/admin/notifications"
                 exact
                 component={AdminNotifications}
               />
+              <Route path="/customer" exact component={CustomerSearch} />
             </Switch>
           </Grid>
         </Grid>
@@ -47,7 +47,6 @@ const App = ({ darkTheme }) => {
 
 const mapStateToProps = (state) => ({
   darkTheme: state.darkTheme,
-  error: state.error,
 });
 
 const mapDispatchToProps = {};

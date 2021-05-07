@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
 
 import socket from "../../socketClient";
-import BranchInfoModal from "./BranchInfoModal";
+import Loading from "../Loading";
+
 import { fetchBranchInfo } from "../../actions";
 
 import { TextField } from "mui-rff";
@@ -57,7 +58,7 @@ const formFields = [
 let valuesObj = {};
 
 const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
-  useEffect(() => {
+  React.useEffect(() => {
     if (branchInfo.length) {
       const branchIds = branchInfo.map((branch) => branch.branch_id);
       socket.emit("customer-connected", {
@@ -70,6 +71,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
   const onSubmit = (values) => {
     fetchBranchInfo(values);
     valuesObj = { ...values };
+    delete values.pin_code;
   };
 
   return (
@@ -88,7 +90,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
                   component="h1"
                   gutterBottom
                 >
-                  Customer Login
+                  Search For Branches
                 </Typography>
                 <Grid container alignItems="flex-start" spacing={2}>
                   {formFields.map((item, idx) => (
@@ -123,7 +125,6 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
           )}
         />
       </Paper>
-      {branchInfo.length ? <BranchInfoModal /> : null}
     </div>
   );
 };

@@ -221,7 +221,7 @@ export const fetchBranchInfo = ({ customer_username, pin_code }) => async (
   getState
 ) => {
   try {
-    const response = await backend.post("/customer/get_branch_info", {
+    const response = await backend.get("/customer/get_branch_info", {
       params: {
         customer_username,
         pin_code,
