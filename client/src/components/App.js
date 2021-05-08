@@ -11,22 +11,39 @@ import AdminDashboard from "./admin/AdminDashboard";
 import AdminNotifications from "./admin/AdminNotifications";
 import ErrorComponent from "./ErrorComponent";
 
-import { Grid, ThemeProvider } from "@material-ui/core";
+import { Grid, ThemeProvider, makeStyles } from "@material-ui/core";
 import light from "../themes/lightTheme";
 import dark from "../themes/darkTheme";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: "100vh",
+    display: "flex",
+    flexFlow: "column",
+    // border: "2px solid blue",
+  },
+  header: {
+    // height: "70px",
+  },
+  content: {
+    height: "100%",
+  },
+}));
+
 const App = ({ darkTheme }) => {
+  const classes = useStyles();
+
   return (
     <ThemeProvider theme={darkTheme ? dark : light}>
       <Router history={createBrowserHistory}>
-        <Grid container direction="column">
-          <Grid item>
+        <Grid container direction="column" className={classes.root}>
+          <Grid item className={classes.header}>
             <Header />
           </Grid>
 
           <ErrorComponent />
 
-          <Grid item container>
+          <Grid item container className={classes.content} justify="center">
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/admin" exact component={AdminLogin} />

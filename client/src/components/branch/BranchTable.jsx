@@ -36,13 +36,13 @@ const columns = [
   {
     id: "password",
     label: "Password",
-    minWidth: 170,
+    minWidth: 100,
     align: "left",
   },
   {
     id: "contacts",
     label: "Contact Numbers",
-    minWidth: 270,
+    minWidth: 170,
     align: "left",
     format: (contacts) => contacts.join(", "),
   },
@@ -55,15 +55,15 @@ const columns = [
   },
 ];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    minHeight: "calc(100vh - 70px)",
   },
   container: {
     maxHeight: "80vh",
+    width: "100vw",
   },
-});
+}));
 
 const BranchTable = ({
   branches,
@@ -106,7 +106,10 @@ const BranchTable = ({
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth, fontWeight: "bold" }}
+                  style={{
+                    minWidth: column.minWidth,
+                    fontWeight: "bold",
+                  }}
                 >
                   {column.label}
                 </TableCell>

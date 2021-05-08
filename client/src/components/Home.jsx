@@ -3,15 +3,12 @@ import { connect } from "react-redux";
 
 import Hero from "./Hero";
 
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: "calc(100vh - 70px)",
-    backgroundColor: theme.palette.primary.main,
-  },
-  hero: {
-    height: "100%",
+    backgroundColor: theme.palette.primary.light,
+    // border: "2px solid green",
   },
 }));
 
@@ -21,34 +18,11 @@ const Home = () => {
   return (
     <Grid
       container
-      alignItems="center"
       justify="center"
+      alignItems="center"
       className={classes.root}
     >
-      {/* <Grid
-        className={classes.hero}
-        style={{ border: "2px solid red" }}
-        item
-        xs={1}
-      ></Grid> */}
-
-      <Grid
-        className={classes.hero}
-        // style={{ border: "2px solid green" }}
-        item
-        container
-        alignItems="center"
-        xs={12}
-      >
-        <Hero />
-      </Grid>
-
-      {/* <Grid
-        className={classes.hero}
-        style={{ border: "2px solid blue" }}
-        item
-        xs={1}
-      ></Grid> */}
+      <Hero />
     </Grid>
   );
 };

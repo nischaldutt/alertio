@@ -22,9 +22,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   root: {
-    backgroundColor: theme.palette.primary.main,
-    height: 70,
     boxShadow: "0px 0px",
+    flexGrow: 1,
+    [theme.breakpoints.down("xs")]: {
+      // height: "70",
+    },
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -43,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     display: "block",
     color: theme.palette.secondary.main,
-    "&:hover": {},
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
   badge: {
     color: "red",
@@ -72,7 +76,7 @@ const Header = ({
   const renderNotificationBadge = () => {
     return (
       <Link to="/admin/notifications">
-        <IconButton aria-label="show new notifications" color="inherit">
+        <IconButton aria-label="show new notifications" color="secondary">
           <Badge variant="dot" color="error">
             <NotificationsIcon />
           </Badge>
@@ -82,11 +86,14 @@ const Header = ({
   };
 
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar position="sticky" className={classes.root}>
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit">
+        <IconButton edge="start" className={classes.menuButton}>
           <Link to="/">
-            <AnnouncementIcon className={classes.iconHeader} />
+            <AnnouncementIcon
+              color="secondary"
+              className={classes.iconHeader}
+            />
           </Link>
         </IconButton>
 
