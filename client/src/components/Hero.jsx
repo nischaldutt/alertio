@@ -4,18 +4,48 @@ import { Link } from "react-router-dom";
 
 import { Button, Grid, Typography, makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {},
-  buttons: {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    // border: "2px solid white",
+  },
+  buttonsDiv: {
+    // border: "2px solid red",
     width: "100%",
-    padding: "20px",
     display: "flex",
-    justifyContent: "space-evenly",
+    gap: "20px",
+    padding: "20px",
+    flexFlow: "row",
+    justifyContent: "space-around",
+    [theme.breakpoints.down("md")]: {
+      flexFlow: "column",
+      alignItems: "center",
+    },
+  },
+  button: {
+    [theme.breakpoints.down("md")]: {
+      // border: "2px solid green",
+    },
   },
   text: {
-    height: "200px",
+    // border: "2px solid green",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 30,
+    },
   },
-});
+  heroDiv: {
+    // border: "2px solid red",
+  },
+  heroSvg: {
+    // border: "2px solid green",
+    objectFit: "contain",
+    width: "700px",
+    height: "700px",
+    [theme.breakpoints.down("md")]: {
+      width: "300px",
+      height: "300px",
+    },
+  },
+}));
 
 const Hero = ({ loggedIn, branches }) => {
   const classes = useStyles();
@@ -24,49 +54,52 @@ const Hero = ({ loggedIn, branches }) => {
   const customerButtonText = "Search for branches";
 
   return (
-    <Grid container className={classes.root}>
-      <Grid
-        item
-        container
-        xs={6}
-        direction="column"
-        alignItems="center"
-        // style={{ border: "2px solid #6200ff" }}
-      >
-        <Typography className={classes.text} color="secondary" variant="h2">
+    <Grid container className={classes.root} xs={10} justify="center">
+      <Grid item sm={12} md={6} className={classes.heroDiv}>
+        <Typography
+          className={classes.text}
+          color="secondary"
+          align="center"
+          variant="h2"
+        >
           {heroHeaderText}
         </Typography>
 
-        <div className={classes.buttons}>
+        <div className={classes.buttonsDiv}>
           <Grid item>
             <Link to={loggedIn ? "/admin/dashboard" : "/admin"}>
-              <Button variant="contained" color="secondary" size="large">
-                <Typography color="primary" variant="button">
-                  {adminButtonText}
-                </Typography>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size="large"
+              >
+                {adminButtonText}
               </Button>
             </Link>
           </Grid>
 
           <Grid item>
             <Link to="/customer">
-              <Button variant="contained" color="secondary" size="large">
-                <Typography color="primary" variant="button">
-                  {customerButtonText}
-                </Typography>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size="large"
+              >
+                {customerButtonText}
               </Button>
             </Link>
           </Grid>
         </div>
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item sm={12} md={6} container justify="center" alignItems="center">
         <svg
+          className={classes.heroSvg}
           id="b6508004-6c42-4ebe-8fca-29884660373a"
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
-          width="811.75984"
-          height="620"
           viewBox="0 0 811.75984 620"
         >
           <path

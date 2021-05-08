@@ -24,7 +24,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 800,
+    width: "40vw",
+    [theme.breakpoints.down("md")]: {
+      width: "500px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "300px",
+    },
   },
 }));
 
