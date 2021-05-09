@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import socket from "../../socketClient";
-
 import Loading from "../Loading";
 import {
   Paper,

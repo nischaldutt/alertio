@@ -3,12 +3,9 @@ import { connect } from "react-redux";
 import { Form } from "react-final-form";
 
 import socket from "../../socketClient";
-import Loading from "../Loading";
-
 import { fetchBranchInfo } from "../../actions";
 
 import { TextField } from "mui-rff";
-
 import {
   Typography,
   Paper,
@@ -120,7 +117,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
                   </Grid>
                 </Grid>
               </Paper>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
+              {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
             </form>
           )}
         />

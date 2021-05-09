@@ -1,13 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
-import { Link } from "react-router-dom";
 
-import socket from "../../socketClient";
 import { fetchAllBranches, setRoom } from "../../actions";
 
 import { TextField } from "mui-rff";
-
 import {
   Typography,
   Paper,
@@ -54,18 +51,10 @@ const formFields = [
   },
 ];
 
-const BranchLoginForm = ({ branches, fetchAllBranches, setRoom }) => {
-  // React.useEffect(() => {
-  //   if (branches.length) {
-  //     socket.emit("admin-connected", { username });
-  //   }
-  // }, [branches]);
-
+const BranchLoginForm = ({ fetchAllBranches, setRoom }) => {
   const onSubmit = (values) => {
     fetchAllBranches(values);
     setRoom(values.branch_username);
-    // fetchAllBranches(values);
-    // username = values.branch_username;
   };
 
   return (
@@ -113,7 +102,7 @@ const BranchLoginForm = ({ branches, fetchAllBranches, setRoom }) => {
                 </Grid>
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
           </form>
         )}
       />
@@ -121,9 +110,7 @@ const BranchLoginForm = ({ branches, fetchAllBranches, setRoom }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  branches: state.branches,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   fetchAllBranches,

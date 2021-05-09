@@ -4,12 +4,8 @@ import { Router, Route, Switch } from "react-router-dom";
 
 import createBrowserHistory from "../history";
 import Header from "./Header";
-import Home from "./Home";
-import AdminLogin from "./admin/AdminLogin";
-import CustomerSearch from "./customer/CustomerSearch";
-import AdminDashboard from "./admin/AdminDashboard";
-import AdminNotifications from "./admin/AdminNotifications";
 import ErrorComponent from "./ErrorComponent";
+import routes from "../routes";
 
 import { Grid, ThemeProvider, makeStyles } from "@material-ui/core";
 import light from "../themes/lightTheme";
@@ -20,15 +16,25 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     display: "flex",
     flexFlow: "column",
-    // border: "2px solid blue",
   },
-  header: {
-    // height: "70px",
-  },
+  header: {},
   content: {
     height: "100%",
   },
 }));
+
+const renderRoutes = () => {
+  return routes.map((route) => {
+    return (
+      <Route
+        key={route.path}
+        path={route.path}
+        exact={route.exact}
+        component={route.component}
+      />
+    );
+  });
+};
 
 const App = ({ darkTheme }) => {
   const classes = useStyles();
@@ -44,17 +50,7 @@ const App = ({ darkTheme }) => {
           <ErrorComponent />
 
           <Grid item container className={classes.content} justify="center">
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/admin" exact component={AdminLogin} />
-              <Route path="/admin/dashboard" exact component={AdminDashboard} />
-              <Route
-                path="/admin/notifications"
-                exact
-                component={AdminNotifications}
-              />
-              <Route path="/customer" exact component={CustomerSearch} />
-            </Switch>
+            <Switch>{renderRoutes()}</Switch>
           </Grid>
         </Grid>
       </Router>

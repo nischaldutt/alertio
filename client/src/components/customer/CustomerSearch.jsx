@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import CustomerForm from "./CustomerForm";
 import SearchedBranchesTable from "./SearchedBranchesTable";
 
-import { Grid, Typography, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {

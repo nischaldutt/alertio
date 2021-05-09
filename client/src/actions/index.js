@@ -6,14 +6,10 @@ import {
   TOGGLE_THEME,
   LOGGED_IN,
   SAVE_ADMIN,
-  SAVE_CUSTOMER,
   SET_BRANCHES,
-  ERROR_OCCURRED,
   GET_BRANCH_INFO,
   SAVE_ALERTS_IN_STORE,
   GET_REALTIME_ALERT,
-  SET_ACCESS_TOKEN,
-  SET_REFRESH_TOKEN,
   SET_ROOM,
   SET_ERROR,
   MARK_ALERT_AS_READ,
@@ -159,7 +155,7 @@ export const adminLogout = () => async (dispatch, getState) => {
       admin: { accessToken, refreshToken },
     } = getState();
 
-    const response = await backend.post(
+    await backend.post(
       "/admin/logout",
       { refreshToken },
       {

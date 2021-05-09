@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 
 import AlertComponent from "../AlertComponent";
-import Loading from "../Loading";
-import { checkIfAdminLoggedIn } from "../../actions";
 
 import { Grid, makeStyles } from "@material-ui/core";
 
@@ -26,15 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminNotifications = ({ checkIfAdminLoggedIn, loggedIn, alerts }) => {
+const AdminNotifications = ({ alerts }) => {
   const classes = useStyles();
-
-  // check if admin session is present after refresh
-  // React.useEffect(() => {
-  //   if(loggedIn && !alerts.length) {
-
-  //   }
-  // }, [checkIfAdminLoggedIn]);
 
   const renderSvg = () => {
     return (
@@ -566,12 +557,9 @@ const AdminNotifications = ({ checkIfAdminLoggedIn, loggedIn, alerts }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  loggedIn: state.loggedIn,
   alerts: state.alerts,
 });
 
-const mapDispatchToProps = {
-  checkIfAdminLoggedIn,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminNotifications);

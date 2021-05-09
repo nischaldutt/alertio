@@ -1,16 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Slide,
-} from "@material-ui/core";
 
 import { emptyErrorObject } from "../actions";
+
+import { Dialog, DialogContent, DialogTitle, Slide } from "@material-ui/core";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

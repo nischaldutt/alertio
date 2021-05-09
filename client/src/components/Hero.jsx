@@ -77,16 +77,16 @@ const features = [
   "Multi-user alerting/Group alerting",
 ];
 
-const Hero = ({ loggedIn, branches }) => {
+const Hero = ({ loggedIn }) => {
   const classes = useStyles();
   const heroHeaderText = "Never miss a critical alert!";
   const adminButtonText = "Enter as an admin";
   const customerButtonText = "Search for branches";
 
   function renderFeatures() {
-    return features.map((feature) => {
+    return features.map((feature, index) => {
       return (
-        <ListItem>
+        <ListItem key={index}>
           <ListItemIcon>
             <DoneIcon />
           </ListItemIcon>
@@ -384,7 +384,6 @@ const Hero = ({ loggedIn, branches }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   loggedIn: state.loggedIn,
-  branches: state.branches,
 });
 
 const mapDispatchToProps = {};

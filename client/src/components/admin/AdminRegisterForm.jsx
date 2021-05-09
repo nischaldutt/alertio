@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
-import { Link } from "react-router-dom";
 
-// import socket from "../../socketClient";
 import { adminRegister } from "../../actions";
 
 import { TextField } from "mui-rff";
-
 import {
   Typography,
   Paper,
@@ -71,9 +68,7 @@ const formFields = [
   },
 ];
 
-// let username;
-
-const AdminRegisterForm = ({ adminRegister, error }) => {
+const AdminRegisterForm = ({ adminRegister }) => {
   const [open, setOpen] = React.useState(false);
 
   const onSubmit = async (values) => {
@@ -158,7 +153,7 @@ const AdminRegisterForm = ({ adminRegister, error }) => {
                 </Grid>
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
           </form>
         )}
       />
@@ -166,9 +161,7 @@ const AdminRegisterForm = ({ adminRegister, error }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  error: state.error,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   adminRegister,
