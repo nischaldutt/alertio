@@ -2,11 +2,22 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { Button, Grid, Typography, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Grid,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // border: "2px solid white",
+    width: "90%",
   },
   buttonsDiv: {
     // border: "2px solid red",
@@ -28,12 +39,13 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     // border: "2px solid green",
+    fontSize: 50,
     [theme.breakpoints.down("md")]: {
       fontSize: 30,
     },
   },
   heroDiv: {
-    // border: "2px solid red",
+    //border: "2px solid red",
   },
   heroSvg: {
     // border: "2px solid green",
@@ -45,7 +57,25 @@ const useStyles = makeStyles((theme) => ({
       height: "300px",
     },
   },
+  featureDiv: {
+    width: "80%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    // border: "2px solid red",
+    display: "flex",
+    justifyContent: "center",
+  },
+  feature: {
+    color: theme.palette.primary.contrastText,
+    fontWeight: 900,
+  },
 }));
+
+const features = [
+  "Respond to critical issues before they impact your business",
+  "Intuitive actionable realtime alerting",
+  "Multi-user alerting/Group alerting",
+];
 
 const Hero = ({ loggedIn, branches }) => {
   const classes = useStyles();
@@ -53,17 +83,39 @@ const Hero = ({ loggedIn, branches }) => {
   const adminButtonText = "Enter as an admin";
   const customerButtonText = "Search for branches";
 
+  function renderFeatures() {
+    return features.map((feature) => {
+      return (
+        <ListItem>
+          <ListItemIcon>
+            <DoneIcon />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography className={classes.feature}>{feature}</Typography>
+          </ListItemText>
+        </ListItem>
+      );
+    });
+  }
+
   return (
-    <Grid container className={classes.root} justify="center">
-      <Grid item sm={12} md={6} className={classes.heroDiv}>
-        <Typography
-          className={classes.text}
-          color="secondary"
-          align="center"
-          variant="h2"
-        >
+    <Grid container className={classes.root}>
+      <Grid
+        item
+        sm={12}
+        md={6}
+        container
+        direction="column"
+        justify="center"
+        className={classes.heroDiv}
+      >
+        <Typography className={classes.text} color="secondary" align="center">
           {heroHeaderText}
         </Typography>
+
+        <div className={classes.featureDiv}>
+          <List>{renderFeatures()}</List>
+        </div>
 
         <div className={classes.buttonsDiv}>
           <Grid item>

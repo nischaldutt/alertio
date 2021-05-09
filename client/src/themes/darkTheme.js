@@ -6,6 +6,7 @@ const dark = createMuiTheme({
     primary: {
       light: "#212121",
       main: "#212121",
+      contrastText: "#ffffff", // white
     },
     secondary: {
       main: "#ffffff",
