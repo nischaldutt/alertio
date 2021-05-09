@@ -108,7 +108,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       type="submit"
                       disabled={submitting}
                     >
