@@ -71,7 +71,7 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
   const onSubmit = (values) => {
     fetchBranchInfo(values);
     valuesObj = { ...values };
-    delete values.pin_code;
+    values.pin_code = "";
   };
 
   return (

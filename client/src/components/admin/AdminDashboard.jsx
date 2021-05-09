@@ -13,7 +13,8 @@ import {
   saveRealTimeAlertInStore,
 } from "../../actions";
 
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, Snackbar, makeStyles } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,8 +41,10 @@ const AdminDashboard = ({
   saveRealTimeAlertInStore,
   checkIfAdminLoggedIn,
   loggedIn,
+  alerts,
 }) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   // check if admin session is present after refresh
   React.useEffect(() => {
@@ -50,15 +53,40 @@ const AdminDashboard = ({
     }
   }, [checkIfAdminLoggedIn, loggedIn]);
 
-  React.useEffect(() => {
-    socket.on("fetch-alerts", (alerts) => {
-      saveAlertsInStore(alerts);
-    });
+  socket.on("fetch-alerts", (alerts) => {
+    saveAlertsInStore(alerts);
+  });
 
-    socket.on("fetch-alerts-realtime", (alert) => {
-      saveRealTimeAlertInStore(alert);
-    });
-  }, [saveAlertsInStore, saveRealTimeAlertInStore]);
+  socket.on("fetch-alerts-realtime", (alert) => {
+    saveRealTimeAlertInStore(alert);
+    handleOpen();
+  });
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} variant="filled" severity="info">
+          New Alert Received!
+        </Alert>
+      </Snackbar>
+    );
+  };
 
   const renderSvg = () => {
     return (
@@ -215,6 +243,7 @@ const AdminDashboard = ({
 
   return (
     <Grid container justify="center" className={classes.root}>
+      {renderSnackbar()}
       {!branches.length ? (
         <Grid item container justify="center" alignItems="center" xs={12}>
           <Grid item md={5} sm={10}>
@@ -236,6 +265,7 @@ const AdminDashboard = ({
 const mapStateToProps = (state) => ({
   branches: state.branches,
   loggedIn: state.loggedIn,
+  alerts: state.alerts,
 });
 
 const mapDispatchToProps = {

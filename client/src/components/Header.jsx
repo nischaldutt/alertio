@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
   badge: {
     color: "red",
   },
+  menuButtons: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
 const Header = ({
@@ -60,9 +63,11 @@ const Header = ({
   loggedIn,
   adminLogout,
   branches,
+  alerts,
 }) => {
   const { pathname } = useLocation();
   const classes = useStyles();
+  const [invisible, setInvisible] = React.useState(true);
   const appHeader = "AlertIO: An Alert Management Application";
 
   const handleChange = () => {
@@ -73,11 +78,29 @@ const Header = ({
     adminLogout();
   };
 
+  React.useEffect(() => {
+    const handleBadgeVisibility = () => {
+      const length = alerts.length;
+      for (let i = 0; i < length; i++) {
+        if (alerts[i].is_read === 0) {
+          console.log(alerts);
+          return setInvisible(false);
+        }
+      }
+      return setInvisible(true);
+    };
+    handleBadgeVisibility();
+  }, [setInvisible, alerts]);
+
   const renderNotificationBadge = () => {
     return (
       <Link to="/admin/notifications">
-        <IconButton aria-label="show new notifications" color="secondary">
-          <Badge variant="dot" color="error">
+        <IconButton
+          className={classes.menuButtons}
+          aria-label="show new notifications"
+          color="secondary"
+        >
+          <Badge variant="dot" invisible={invisible} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -105,6 +128,7 @@ const Header = ({
 
         <div className={classes.grow} />
         <Switch
+          className={classes.menuButtons}
           checked={darkTheme}
           onChange={handleChange}
           color="secondary"
@@ -127,6 +151,7 @@ const mapStateToProps = (state, ownProps) => ({
   darkTheme: state.darkTheme,
   loggedIn: state.loggedIn,
   branches: state.branches,
+  alerts: state.alerts,
 });
 
 const mapDispatchToProps = {
