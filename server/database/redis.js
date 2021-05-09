@@ -2,7 +2,7 @@ const redis = require("redis");
 
 const redisClient = redis.createClient({
   port: process.env.REDIS_PORT,
-  host: "localhost",
+  host: process.env.HOST,
 });
 
 redisClient.on("connect", (err) => {

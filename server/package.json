@@ -4,7 +4,7 @@
   "description": "alert management tool",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=dev && nodemon index.js",
+    "start": "redis-server --daemonize yes && export NODE_ENV=dev && nodemon index.js",
     "prod": "export NODE_ENV=prod && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
