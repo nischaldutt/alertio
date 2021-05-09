@@ -83,7 +83,6 @@ const Header = ({
       const length = alerts.length;
       for (let i = 0; i < length; i++) {
         if (alerts[i].is_read === 0) {
-          console.log(alerts);
           return setInvisible(false);
         }
       }
