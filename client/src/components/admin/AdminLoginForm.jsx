@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Form } from "react-final-form";
-import { Link } from "react-router-dom";
-
-import socket from "../../socketClient";
 import { adminLogin } from "../../actions";
 
 import { TextField } from "mui-rff";
@@ -54,19 +51,9 @@ const formFields = [
   },
 ];
 
-let username;
-
-const AdminLoginForm = ({ adminLogin, admin }) => {
-  // useEffect(() => {
-  //   if (branches.length) {
-  //     socket.emit("admin-connected", { username });
-  //   }
-  // }, [branches]);
-
+const AdminLoginForm = ({ adminLogin }) => {
   const onSubmit = (values) => {
     adminLogin(values);
-    // fetchAllBranches(values);
-    // username = values.branch_username;
   };
 
   return (
@@ -114,7 +101,7 @@ const AdminLoginForm = ({ adminLogin, admin }) => {
                 </Grid>
               </Grid>
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
           </form>
         )}
       />
@@ -122,9 +109,7 @@ const AdminLoginForm = ({ adminLogin, admin }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  admin: state.admin,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   adminLogin,

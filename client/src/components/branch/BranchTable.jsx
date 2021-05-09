@@ -2,12 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 
 import socket from "../../socketClient";
-import {
-  checkIfAdminLoggedIn,
-  saveAlertsInStore,
-  saveRealTimeAlertInStore,
-} from "../../actions";
-
 import Loading from "../Loading";
 import {
   Paper,
@@ -65,15 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BranchTable = ({
-  branches,
-  admin,
-  room,
-  saveAlertsInStore,
-  saveRealTimeAlertInStore,
-  checkIfAdminLoggedIn,
-  loggedIn,
-}) => {
+const BranchTable = ({ branches, room }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -160,15 +146,9 @@ const BranchTable = ({
 
 const mapStateToProps = (state) => ({
   branches: state.branches,
-  loggedIn: state.loggedIn,
-  admin: state.admin,
   room: state.room,
 });
 
-const mapDispatchToProps = {
-  checkIfAdminLoggedIn,
-  saveAlertsInStore,
-  saveRealTimeAlertInStore,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BranchTable);

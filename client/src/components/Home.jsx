@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Hero from "./Hero";
 
-import { Grid, makeStyles, Paper } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {

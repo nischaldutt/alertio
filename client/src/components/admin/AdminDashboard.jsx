@@ -2,13 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 
 import socket from "../../socketClient";
-import Loading from "../Loading";
 import BranchLoginForm from "../branch/BranchLoginForm";
 import BranchTable from "../branch/BranchTable";
 
 import {
   checkIfAdminLoggedIn,
-  fetchAllBranches,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
 } from "../../actions";
@@ -36,12 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminDashboard = ({
   branches,
-  fetchAllBranches,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
   checkIfAdminLoggedIn,
   loggedIn,
-  alerts,
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -265,12 +261,10 @@ const AdminDashboard = ({
 const mapStateToProps = (state) => ({
   branches: state.branches,
   loggedIn: state.loggedIn,
-  alerts: state.alerts,
 });
 
 const mapDispatchToProps = {
   checkIfAdminLoggedIn,
-  fetchAllBranches,
   saveAlertsInStore,
   saveRealTimeAlertInStore,
 };

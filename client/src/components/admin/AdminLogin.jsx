@@ -6,7 +6,7 @@ import AdminRegisterForm from "../admin/AdminRegisterForm";
 
 import { checkIfAdminLoggedIn } from "../../actions";
 
-import { Grid, Typography, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn, error }) => {
+const AdminLogin = ({ checkIfAdminLoggedIn }) => {
   const classes = useStyles();
 
   // check if admin session is present after refresh
@@ -627,10 +627,7 @@ const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn, error }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  loggedIn: state.loggedIn,
-  error: state.error,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   checkIfAdminLoggedIn,

@@ -7,13 +7,10 @@ import socket from "../socketClient";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Slide,
-  Grid,
-  Typography,
   Button,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
@@ -34,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AlertComponent = ({ alert, markAlertAsRead, alerts }) => {
+const AlertComponent = ({ alert, markAlertAsRead }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -115,9 +112,7 @@ const AlertComponent = ({ alert, markAlertAsRead, alerts }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  alerts: state.alerts,
-});
+const mapStateToProps = (state, ownProps) => ({});
 
 const mapDispatchToProps = {
   markAlertAsRead,
