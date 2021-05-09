@@ -4,7 +4,7 @@ import { Form } from "react-final-form";
 import { Link } from "react-router-dom";
 
 // import socket from "../../socketClient";
-import { fetchAllBranches } from "../../actions";
+import { adminRegister } from "../../actions";
 
 import { TextField } from "mui-rff";
 
@@ -14,7 +14,9 @@ import {
   Grid,
   Button,
   CssBaseline,
+  Snackbar,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 const validate = (values) => {
   const errors = {};
@@ -71,20 +73,48 @@ const formFields = [
 
 // let username;
 
-const AdminRegisterForm = ({ fetchAllBranches, branches }) => {
-  // useEffect(() => {
-  //   if (branches.length) {
-  //     socket.emit("admin-connected", { username });
-  //   }
-  // }, [branches]);
+const AdminRegisterForm = ({ adminRegister, error }) => {
+  const [open, setOpen] = React.useState(false);
 
-  const onSubmit = (values) => {
-    // fetchAllBranches(values);
-    // username = values.branch_username;
+  const onSubmit = async (values) => {
+    const response = await adminRegister(values);
+    if (response && response.status === 200) {
+      handleOpen();
+    }
+    values.admin_name = "";
+    values.admin_email = "";
+    values.admin_password = "";
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const renderSnackbar = () => {
+    return (
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} variant="filled" severity="success">
+          Admin registered successfully!
+        </Alert>
+      </Snackbar>
+    );
   };
 
   return (
     <Paper elevation={3}>
+      {renderSnackbar()}
       <CssBaseline />
       <Form
         onSubmit={onSubmit}
@@ -98,7 +128,7 @@ const AdminRegisterForm = ({ fetchAllBranches, branches }) => {
                 component="h1"
                 gutterBottom
               >
-                Register
+                Sign up
               </Typography>
               <Grid container alignItems="flex-start" spacing={2}>
                 {formFields.map((item, idx) => (
@@ -137,11 +167,11 @@ const AdminRegisterForm = ({ fetchAllBranches, branches }) => {
 };
 
 const mapStateToProps = (state) => ({
-  branches: state.branches,
+  error: state.error,
 });
 
 const mapDispatchToProps = {
-  fetchAllBranches,
+  adminRegister,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminRegisterForm);

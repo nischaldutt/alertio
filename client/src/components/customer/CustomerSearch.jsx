@@ -12,11 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
   formDiv: {
     // border: "2px solid red",
+    height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      height: "auto",
+    },
   },
   resultsDiv: {
     // border: "2px solid red",
     height: "100%",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       height: "auto",
     },
   },
@@ -24,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "contain",
     width: "300px",
     height: "300px",
-    [theme.breakpoints.down("md")]: {
-      width: "300px",
-      height: "300px",
-    },
   },
   resultsSvg: {
     objectFit: "contain",
@@ -367,19 +367,17 @@ const CustomerSearch = ({ branchInfo }) => {
     <Grid
       className={classes.root}
       container
-      sm={11}
-      md={10}
-      justify="center"
+      justify="space-around"
       alignItems="flex-start"
     >
       <Grid
         item
         container
         direction="column"
-        justify="center"
+        justify="flex-start"
         alignItems="center"
-        md={6}
-        sm={12}
+        md={5}
+        sm={11}
         className={classes.formDiv}
       >
         {renderSearchSvg()}
@@ -391,8 +389,8 @@ const CustomerSearch = ({ branchInfo }) => {
         container
         justify="center"
         alignItems="center"
-        md={6}
-        sm={12}
+        md={5}
+        sm={11}
         className={classes.resultsDiv}
       >
         {branchInfo.length ? (

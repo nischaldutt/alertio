@@ -81,7 +81,9 @@ const BranchTable = ({
   // create a socket room with roomName = adminId
   React.useEffect(() => {
     if (branches.length) {
-      socket.emit("admin-connected", { username: room });
+      socket.emit("admin-connected", {
+        username: room,
+      });
     }
   }, [branches, room]);
 

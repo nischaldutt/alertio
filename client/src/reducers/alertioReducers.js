@@ -92,7 +92,23 @@ export const alertReducer = (state = [], action) => {
     case SAVE_ALERTS_IN_STORE:
       return action.payload;
     case GET_REALTIME_ALERT:
-      return [action.payload, ...state];
+      // remove duplicate games from response array using Map
+      // const [action.payload, ...state];
+      // const myMap = new Map(
+      //   combinedResponse.map((game) => {
+      //     return [game.id, game];
+      //   })
+      // );
+
+      // return {
+      //   data: [...myMap.values()],
+      // };
+
+      if (action.payload.alert_id === state[0].alert_id) {
+        return state;
+      } else {
+        return [action.payload, ...state];
+      }
     case MARK_ALERT_AS_READ: {
       return state.map((alert) => {
         if (alert.alert_id === action.payload) {

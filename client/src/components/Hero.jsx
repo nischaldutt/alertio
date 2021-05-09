@@ -54,7 +54,7 @@ const Hero = ({ loggedIn, branches }) => {
   const customerButtonText = "Search for branches";
 
   return (
-    <Grid container className={classes.root} xs={10} justify="center">
+    <Grid container className={classes.root} justify="center">
       <Grid item sm={12} md={6} className={classes.heroDiv}>
         <Typography
           className={classes.text}

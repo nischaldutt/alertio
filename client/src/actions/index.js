@@ -1,5 +1,7 @@
 import backend from "../api";
+
 import createBrowserHistory from "../history";
+
 import {
   TOGGLE_THEME,
   LOGGED_IN,
@@ -35,6 +37,35 @@ export const emptyErrorObject = () => {
     type: SET_ERROR,
     payload: null,
   };
+};
+
+export const adminRegister = ({
+  admin_name,
+  admin_email,
+  admin_password,
+}) => async (dispatch, getState) => {
+  try {
+    const response = await backend.post(
+      "/admin/register",
+      {
+        admin_name,
+        admin_email,
+        admin_password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: err.response.data,
+    });
+  }
 };
 
 export const adminLogin = ({ admin_email, admin_password }) => async (
