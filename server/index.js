@@ -1,4 +1,6 @@
-require("dotenv").config();
+process.env.NODE_ENV === "production"
+  ? require("dotenv").config({ path: __dirname + "/.env" })
+  : require("dotenv").config({ path: __dirname + "/.env.test" });
 
 const app = require("express")();
 const http = require("http").Server(app);
@@ -60,6 +62,8 @@ app.use("/customer", customerRouter);
 // Branch routes
 app.use("/branch", branchRouter);
 
-http.listen(process.env.PORT || 3001, () => {
+const PORT = process.env.PORT || 3000;
+
+http.listen(PORT, () => {
   console.log(`Server online at ${process.env.PORT}`);
 });

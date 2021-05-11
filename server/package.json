@@ -4,8 +4,8 @@
   "description": "alert management tool",
   "main": "index.js",
   "scripts": {
-    "start": "redis-server --daemonize yes && export NODE_ENV=dev && nodemon index.js",
-    "prod": "export NODE_ENV=prod && node index.js",
+    "start": "export NODE_ENV=production && node index.js",
+    "dev": "export NODE_ENV=development && nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nischal Dutt",

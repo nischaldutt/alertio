@@ -153,11 +153,13 @@ module.exports.adminSessionLogin = (req, res, next) => {
   // check if session exists in the request object
   console.log({ activeSession: req.session });
   if (req.session.user) {
+    console.log("User Session found.");
     res.json({
       loggedIn: true,
       user: req.session.user,
     });
   } else {
+    console.log("User session not present");
     res.json({
       loggedIn: false,
     });

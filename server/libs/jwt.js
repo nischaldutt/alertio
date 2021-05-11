@@ -6,7 +6,7 @@ const CONSTANTS = require("../properties/constants");
 
 const createAccessToken = (payload) => {
   const token = jwt.sign(payload, process.env.JWT_PRIVATE_KEY, {
-    expiresIn: "1d",
+    expiresIn: "1m",
   });
   return token;
 };

@@ -13,6 +13,8 @@ module.exports = function (io) {
         pin_code_searched: values.pin_code,
       };
 
+      console.log({ "Alert object received at server ==> ": alertObj });
+
       const { affectedRows, insertId } = await alertHandler.saveAlerts({
         alertObj,
         timestamp,

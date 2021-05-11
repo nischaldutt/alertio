@@ -12,7 +12,7 @@ module.exports.accessTokenExpired = (error) => {
   return {
     error: error,
     status: CONSTANTS.responseFlags.ACCESS_FORBIDDEN,
-    message: "Action forbidden",
+    message: "JWT_TOKEN_EXPIRED",
   };
 };
 

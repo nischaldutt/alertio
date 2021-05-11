@@ -19,6 +19,10 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:3001/admin/login
+
+###
+
 GET http://localhost:3001/admin/dashboard
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwMTI4NDczLCJleHAiOjE2MjAyMTQ4NzN9.osBqZGIdDDnBrOtQiPqXrjAb1qfSaE52Og3rY71-yuo
 
@@ -28,7 +32,7 @@ POST http://localhost:3001/auth/token
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE5Nzg3MjkxLCJleHAiOjE2MjAzOTIwOTF9.9a_lwX-8CgMQI4EVXG96mYChDr_qao1NUjV2_RiNHGU"
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwNjMxMDE3LCJleHAiOjE2MjEyMzU4MTd9.VMdavxRIky8xoagEhrSRLRC3s6LYh0Olo7Fow3Urqew"
 }
 
 ###
