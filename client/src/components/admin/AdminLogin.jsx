@@ -39,15 +39,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminLogin = ({ checkIfAdminLoggedIn }) => {
+const AdminLogin = ({ checkIfAdminLoggedIn, loggedIn }) => {
   const classes = useStyles();
 
   // check if admin session is present after refresh
   React.useEffect(() => {
-    // if (!loggedIn) {
-    checkIfAdminLoggedIn();
-    // }
-  }, [checkIfAdminLoggedIn]);
+    if (!loggedIn) {
+      checkIfAdminLoggedIn();
+    }
+  }, [checkIfAdminLoggedIn, loggedIn]);
 
   const renderLoginSvg = () => {
     return (
@@ -627,7 +627,9 @@ const AdminLogin = ({ checkIfAdminLoggedIn }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  loggedIn: state.loggedIn,
+});
 
 const mapDispatchToProps = {
   checkIfAdminLoggedIn,

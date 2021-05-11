@@ -76,9 +76,9 @@ const AdminRegisterForm = ({ adminRegister }) => {
     if (response && response.status === 200) {
       handleOpen();
     }
-    values.admin_name = "";
-    values.admin_email = "";
-    values.admin_password = "";
+    values.admin_name = null;
+    values.admin_email = null;
+    values.admin_password = null;
   };
 
   const handleOpen = () => {

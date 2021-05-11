@@ -44,7 +44,7 @@ const AdminDashboard = ({
 
   // check if admin session is present after refresh
   React.useEffect(() => {
-    if (!loggedIn) {
+    if (loggedIn) {
       checkIfAdminLoggedIn();
     }
   }, [checkIfAdminLoggedIn, loggedIn]);

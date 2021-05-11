@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Form } from "react-final-form";
 
 import socket from "../../socketClient";
-import { fetchBranchInfo } from "../../actions";
+import { fetchBranchInfo, saveCustomer } from "../../actions";
 
 import { TextField } from "mui-rff";
 import {
@@ -52,23 +52,19 @@ const formFields = [
   },
 ];
 
-let valuesObj = {};
+const CustomerForm = ({ fetchBranchInfo, saveCustomer }) => {
+  const onSubmit = async (values) => {
+    const { payload: customer } = await saveCustomer(values);
+    const { payload: branchesFetched } = await fetchBranchInfo(values);
 
-const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
-  React.useEffect(() => {
-    if (branchInfo.length) {
-      const branchIds = branchInfo.map((branch) => branch.branch_id);
+    if (branchesFetched.length) {
+      const branchIds = branchesFetched.map((branch) => branch.branch_id);
+
       socket.emit("customer-connected", {
-        values: valuesObj,
+        values: customer,
         branchIds,
       });
     }
-  }, [branchInfo]);
-
-  const onSubmit = (values) => {
-    fetchBranchInfo(values);
-    valuesObj = { ...values };
-    values.pin_code = "";
   };
 
   return (
@@ -128,10 +124,12 @@ const CustomerForm = ({ fetchBranchInfo, branchInfo }) => {
 
 const mapStateToProps = (state) => ({
   branchInfo: state.branchInfo,
+  customer: state.customer,
 });
 
 const mapDispatchToProps = {
   fetchBranchInfo,
+  saveCustomer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerForm);

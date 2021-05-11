@@ -13,6 +13,7 @@ import {
   SET_ROOM,
   SET_ERROR,
   MARK_ALERT_AS_READ,
+  SAVE_CUSTOMER,
 } from "./types";
 
 export const toggleTheme = () => {
@@ -35,84 +36,92 @@ export const emptyErrorObject = () => {
   };
 };
 
-export const adminRegister = ({
-  admin_name,
-  admin_email,
-  admin_password,
-}) => async (dispatch, getState) => {
-  try {
-    const response = await backend.post(
-      "/admin/register",
-      {
-        admin_name,
-        admin_email,
-        admin_password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+export const adminRegister =
+  ({ admin_name, admin_email, admin_password }) =>
+  async (dispatch, getState) => {
+    try {
+      const response = await backend.post(
+        "/admin/register",
+        {
+          admin_name,
+          admin_email,
+          admin_password,
         },
-      }
-    );
-    return response.data;
-  } catch (err) {
-    // console.log(err.response.data);
-    dispatch({
-      type: SET_ERROR,
-      payload: err.response.data,
-    });
-  }
-};
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      // console.log(err.response.data);
+      return dispatch({
+        type: SET_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
 
-export const adminLogin = ({ admin_email, admin_password }) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const response = await backend.post(
-      "/admin/login",
-      {
-        admin_email,
-        admin_password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+export const adminLogin =
+  ({ admin_email, admin_password }) =>
+  async (dispatch, getState) => {
+    try {
+      const response = await backend.post(
+        "/admin/login",
+        {
+          admin_email,
+          admin_password,
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    dispatch({
-      type: LOGGED_IN,
-      payload: true,
-    });
+      const { refreshToken, accessToken, adminId } = response.data.data;
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      const adminInStore = { adminId, admin_email };
 
-    dispatch({
-      type: SAVE_ADMIN,
-      payload: response.data.data,
-    });
+      dispatch({
+        type: LOGGED_IN,
+        payload: true,
+      });
 
-    createBrowserHistory.push("/admin/dashboard");
-  } catch (err) {
-    // console.log(err.response.data);
-    dispatch({
-      type: SET_ERROR,
-      payload: err.response.data,
-    });
-  }
-};
+      dispatch({
+        type: SAVE_ADMIN,
+        payload: adminInStore,
+      });
+
+      createBrowserHistory.push("/admin/dashboard");
+      return;
+    } catch (err) {
+      // console.log(err.response.data);
+      return dispatch({
+        type: SET_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
 
 export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
   try {
     const response = await backend.get("/admin/login");
-    // console.log({ gotTheSessionData: response });
+
     if (response.data.loggedIn) {
       dispatch({
         type: LOGGED_IN,
         payload: true,
       });
 
+      dispatch({
+        type: SAVE_ADMIN,
+        payload: response.data.user,
+      });
       createBrowserHistory.push("/admin/dashboard");
+      return;
     } else {
       dispatch({
         type: LOGGED_IN,
@@ -139,10 +148,11 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
         payload: "",
       });
       createBrowserHistory.push("/admin");
+      return;
     }
   } catch (err) {
     // console.log(err.response.data);
-    dispatch({
+    return dispatch({
       type: SET_ERROR,
       payload: err.response.data,
     });
@@ -151,9 +161,7 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
 
 export const adminLogout = () => async (dispatch, getState) => {
   try {
-    const {
-      admin: { accessToken, refreshToken },
-    } = getState();
+    const { accessToken, refreshToken } = localStorage;
 
     await backend.post(
       "/admin/logout",
@@ -191,50 +199,48 @@ export const adminLogout = () => async (dispatch, getState) => {
     });
 
     createBrowserHistory.push("/admin");
+    return;
   } catch (err) {
     // console.log(err.response.data);
-    dispatch({
+    return dispatch({
       type: SET_ERROR,
       payload: err.response.data,
     });
   }
 };
 
-export const fetchAllBranches = ({
-  branch_username,
-  branch_password,
-}) => async (dispatch, getState) => {
-  try {
-    const {
-      admin: { accessToken },
-    } = getState();
+export const fetchAllBranches =
+  ({ branch_username, branch_password }) =>
+  async (dispatch, getState) => {
+    try {
+      const { accessToken } = localStorage;
 
-    const response = await backend.post(
-      "/branch/login",
-      {
-        branch_username,
-        branch_password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+      const response = await backend.post(
+        "/branch/login",
+        {
+          branch_username,
+          branch_password,
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-    dispatch({
-      type: SET_BRANCHES,
-      payload: response.data,
-    });
-  } catch (err) {
-    console.log(err.response.data);
-    dispatch({
-      type: SET_ERROR,
-      payload: err.response.data,
-    });
-  }
-};
+      return dispatch({
+        type: SET_BRANCHES,
+        payload: response.data,
+      });
+    } catch (err) {
+      // console.log(err.response.data);
+      return dispatch({
+        type: SET_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
 
 export const markAlertAsRead = ({ alert_id }) => {
   return {
@@ -243,28 +249,27 @@ export const markAlertAsRead = ({ alert_id }) => {
   };
 };
 
-export const fetchBranchInfo = ({ customer_username, pin_code }) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const response = await backend.get("/customer/get_branch_info", {
-      params: {
-        customer_username,
-        pin_code,
-      },
-    });
-    dispatch({
-      type: GET_BRANCH_INFO,
-      payload: response.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: SET_ERROR,
-      payload: err.response.data,
-    });
-  }
-};
+export const fetchBranchInfo =
+  ({ customer_username, pin_code }) =>
+  async (dispatch, getState) => {
+    try {
+      const response = await backend.get("/customer/get_branch_info", {
+        params: {
+          customer_username,
+          pin_code,
+        },
+      });
+      return dispatch({
+        type: GET_BRANCH_INFO,
+        payload: response.data,
+      });
+    } catch (err) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: err.response.data,
+      });
+    }
+  };
 
 export const saveAlertsInStore = (alerts) => {
   return {
@@ -277,5 +282,12 @@ export const saveRealTimeAlertInStore = (alertObj) => {
   return {
     type: GET_REALTIME_ALERT,
     payload: alertObj,
+  };
+};
+
+export const saveCustomer = (customer) => {
+  return {
+    type: SAVE_CUSTOMER,
+    payload: customer,
   };
 };

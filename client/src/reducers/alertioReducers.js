@@ -43,6 +43,8 @@ export const saveAdminReducer = (state = {}, action) => {
   switch (action.type) {
     case SAVE_ADMIN:
       return action.payload;
+    case SET_ACCESS_TOKEN:
+      return { ...state, accessToken: action.payload };
     default:
       return state;
   }

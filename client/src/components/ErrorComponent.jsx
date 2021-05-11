@@ -11,12 +11,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ErrorComponent = ({ error, emptyErrorObject }) => {
   const [open, setOpen] = React.useState(false);
+  const jwtError =
+    error && error.message === "JWT_TOKEN_EXPIRED" ? true : false;
 
   React.useEffect(() => {
-    if (error) {
+    if (error && !jwtError) {
       setOpen(true);
+    } else if (jwtError) {
+      emptyErrorObject();
     }
-  }, [error]);
+  }, [error, jwtError, emptyErrorObject]);
 
   const handleClose = () => {
     setOpen(false);
