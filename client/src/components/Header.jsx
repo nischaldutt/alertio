@@ -133,7 +133,7 @@ const Header = ({
           color="secondary"
           inputProps={{ "aria-label": "secondary checkbox" }}
         />
-        {pathname === "/admin/dashboard" && branches.length
+        {pathname === "/admin/branches" && branches.length
           ? renderNotificationBadge()
           : null}
         {loggedIn ? (

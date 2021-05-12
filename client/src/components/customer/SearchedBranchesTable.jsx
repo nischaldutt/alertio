@@ -57,6 +57,27 @@ const SearchedBranchesTable = ({ branchInfo }) => {
     setPage(0);
   };
 
+  const renderTableBody = () => {
+    return branchInfo
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((branch) => {
+        return (
+          <TableRow hover role="checkbox" tabIndex={-1} key={branch.branch_id}>
+            {columns.map((column) => {
+              const value = branch[column.id];
+              return (
+                <TableCell key={column.id} align={column.align}>
+                  {column.format && typeof value === "object"
+                    ? column.format(value)
+                    : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        );
+      });
+  };
+
   return !branchInfo.length ? (
     <Loading />
   ) : (
@@ -79,31 +100,7 @@ const SearchedBranchesTable = ({ branchInfo }) => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {branchInfo
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((branch) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={branch.branch_id}
-                  >
-                    {columns.map((column) => {
-                      const value = branch[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "object"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
+          <TableBody>{renderTableBody()}</TableBody>
         </Table>
       </TableContainer>
       <TablePagination

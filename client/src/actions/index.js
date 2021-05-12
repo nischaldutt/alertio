@@ -95,7 +95,7 @@ export const adminLogin =
         payload: adminInStore,
       });
 
-      createBrowserHistory.push("/admin/dashboard");
+      createBrowserHistory.push("/admin/branches");
       return;
     } catch (err) {
       // console.log(err.response.data);
@@ -109,7 +109,7 @@ export const adminLogin =
 export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
   try {
     const response = await backend.get("/admin/login");
-
+    // console.log(response);
     if (response.data.loggedIn) {
       dispatch({
         type: LOGGED_IN,
@@ -120,7 +120,8 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
         type: SAVE_ADMIN,
         payload: response.data.user,
       });
-      createBrowserHistory.push("/admin/dashboard");
+
+      createBrowserHistory.push("/admin/branches");
       return;
     } else {
       dispatch({
@@ -151,7 +152,7 @@ export const checkIfAdminLoggedIn = () => async (dispatch, getState) => {
       return;
     }
   } catch (err) {
-    // console.log(err.response.data);
+    // console.log(err.response);
     return dispatch({
       type: SET_ERROR,
       payload: err.response.data,
@@ -198,6 +199,9 @@ export const adminLogout = () => async (dispatch, getState) => {
       payload: "",
     });
 
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
     createBrowserHistory.push("/admin");
     return;
   } catch (err) {
@@ -215,7 +219,7 @@ export const fetchAllBranches =
     try {
       const { accessToken } = localStorage;
 
-      const response = await backend.post(
+      const branchLoginResponse = await backend.post(
         "/branch/login",
         {
           branch_username,
@@ -229,10 +233,22 @@ export const fetchAllBranches =
         }
       );
 
-      return dispatch({
-        type: SET_BRANCHES,
-        payload: response.data,
-      });
+      // console.log({ branchLoginResponse });
+
+      if (branchLoginResponse.status === 200) {
+        const branches = await backend.get("/admin/dashboard", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        // console.log({ branches });
+
+        return dispatch({
+          type: SET_BRANCHES,
+          payload: branches.data,
+        });
+      }
     } catch (err) {
       // console.log(err.response.data);
       return dispatch({
@@ -259,11 +275,13 @@ export const fetchBranchInfo =
           pin_code,
         },
       });
+      // console.log("response ===> ", response);
       return dispatch({
         type: GET_BRANCH_INFO,
         payload: response.data,
       });
     } catch (err) {
+      // console.log("error ===> ", err.response);
       return dispatch({
         type: SET_ERROR,
         payload: err.response.data,

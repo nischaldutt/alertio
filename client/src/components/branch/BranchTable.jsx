@@ -82,6 +82,27 @@ const BranchTable = ({ branches, room }) => {
     setPage(0);
   };
 
+  const renderTableBody = () => {
+    return branches
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((branch) => {
+        return (
+          <TableRow hover role="checkbox" tabIndex={-1} key={branch.branch_id}>
+            {columns.map((column) => {
+              const value = branch[column.id];
+              return (
+                <TableCell key={column.id} align={column.align}>
+                  {column.format && typeof value === "object"
+                    ? column.format(value)
+                    : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        );
+      });
+  };
+
   return !branches.length ? (
     <Loading />
   ) : (
@@ -104,31 +125,7 @@ const BranchTable = ({ branches, room }) => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {branches
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((branch) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={branch.branch_id}
-                  >
-                    {columns.map((column) => {
-                      const value = branch[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "object"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
+          <TableBody>{renderTableBody()}</TableBody>
         </Table>
       </TableContainer>
       <TablePagination

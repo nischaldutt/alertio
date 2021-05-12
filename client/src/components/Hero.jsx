@@ -119,7 +119,7 @@ const Hero = ({ loggedIn }) => {
 
         <div className={classes.buttonsDiv}>
           <Grid item>
-            <Link to={loggedIn ? "/admin/dashboard" : "/admin"}>
+            <Link to={loggedIn ? "/admin/branches" : "/admin"}>
               <Button
                 className={classes.button}
                 variant="contained"

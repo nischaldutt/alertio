@@ -16,7 +16,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "/admin/dashboard",
+    path: "/admin/branches",
     component: AdminDashboard,
     exact: true,
   },
