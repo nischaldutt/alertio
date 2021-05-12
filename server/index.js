@@ -2,7 +2,10 @@ process.env.NODE_ENV === "production"
   ? require("dotenv").config({ path: __dirname + "/.env" })
   : require("dotenv").config({ path: __dirname + "/.env.test" });
 
-const app = require("express")();
+const express = require("express");
+const app = express();
+const path = require("path");
+
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
@@ -62,7 +65,18 @@ app.use("/customer", customerRouter);
 // Branch routes
 app.use("/branch", branchRouter);
 
-const PORT = process.env.PORT || 3000;
+// Catch all unknown routes ( this middleware runs after all routes have been defined !)
+if (process.env.NODE_ENV === "production") {
+  // Serve static files
+  app.use(express.static(path.resolve(__dirname, "client", "build")));
+
+  app.get("*", (req, res, next) => {
+    // Serve index.html file if it doesn't recognize the route
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+const PORT = process.env.PORT || 3001;
 
 http.listen(PORT, () => {
   console.log(`Server online at ${process.env.PORT}`);
