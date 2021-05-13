@@ -33,7 +33,7 @@
 <div>
   <a href="https://youtu.be/b6etTkG54e4" target="_blank">
     <img
-      alt="AlertIO: An Alert Management Application | Video-Walkthrough"
+      alt="AlertIO: An Alert Management Application | Video Walk-Through"
       src="https://i.imgur.com/uGfO0SF.png"
     />
   </a>
@@ -87,7 +87,7 @@
 - Input Validation: [Joi](https://www.npmjs.com/package/joi)
 - Authorization: [JSON Web Tokens](https://www.npmjs.com/package/joi)
 - Real-time alerts: [Socket.io](http://socket.io/)
-- Cookie parsing: [Cookie Parer](https://www.npmjs.com/package/cookie-parser)
+- Cookie parsing: [Cookie Parser](https://www.npmjs.com/package/cookie-parser)
 - User login sessions: [Express Session](https://www.npmjs.com/package/express-session)
 - Error Handling: [HTTP Errors](https://www.npmjs.com/package/http-errors)
 
