@@ -31,10 +31,10 @@
 ## Video Walk-Through
 
 <div>
-  <a href="https://youtu.be/sL7DJK9GA74" target="_blank">
+  <a href="https://youtu.be/b6etTkG54e4" target="_blank">
     <img
-      alt="Gaming Punk"
-      src="https://i.imgur.com/co4dANA.png"
+      alt="AlertIO: An Alert Management Application | Video-Walkthrough"
+      src="https://i.imgur.com/uGfO0SF.png"
     />
   </a>
 </div>
