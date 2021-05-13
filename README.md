@@ -87,6 +87,9 @@
 - Input Validation: [Joi](https://www.npmjs.com/package/joi)
 - Authorization: [JSON Web Tokens](https://www.npmjs.com/package/joi)
 - Real-time alerts: [Socket.io](http://socket.io/)
+- Cookie parsing: [Cookie Parer](https://www.npmjs.com/package/cookie-parser)
+- User login sessions: [Express Session](https://www.npmjs.com/package/express-session)
+- Error Handling: [HTTP Errors](https://www.npmjs.com/package/http-errors)
 
 ### Databases
 
