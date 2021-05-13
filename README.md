@@ -1,70 +1,202 @@
-# Getting Started with Create React App
+<div>
+  <h1 align="center">
+    <a href="https://alertio-backend.herokuapp.com/">AlertIO: An Alert Management Application</a>
+  </h1>
+  <strong>
+    Never miss a critical alert!
+  </strong>
+  <p>
+    A fullstack web app built with
+    <a href="https://react-redux.js.org/">React-Redux</a>, 
+    <a href="https://expressjs.com/">Express.js</a>, 
+    <a href="https://socket.io/">Socket.io</a> 
+    to deliver realtime updates and alerts.
+  </p>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<hr />
 
-## Available Scripts
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/nischaldutt/alertio)
+[![MIT Licence](https://img.shields.io/badge/Licence-MIT-blue)](https://github.com/nischaldutt/alertio/blob/main/LICENSE)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- 🔔 Respond to critical issues before they impact your business.
+- ⏰ Intuitive actionable realtime alerting.
+- 👥 Multi-user alerting/Group alerting implemented with [Socket.io Rooms](https://socket.io/docs/v4/rooms/).
+- 💻 Admin dashboard to view all branches.
+- 🔐 Authorized requests and secure information exchanges using [JSON Web Token](https://dev.twitch.tv/docs/embed/chat) embedded in server APIs.
+- 📱 Fully Responsive application.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Video Walk-Through
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<div>
+  <a href="https://youtu.be/sL7DJK9GA74" target="_blank">
+    <img
+      alt="Gaming Punk"
+      src="https://i.imgur.com/co4dANA.png"
+    />
+  </a>
+</div>
 
-### `npm test`
+## ScreenShots
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<div>
+    <img
+      alt="Home"
+      src="https://i.imgur.com/jfla1KV.png"
+    />
+  <hr />
+    <img
+      alt="Admin login"
+      src="https://i.imgur.com/3i4r9MG.png"
+    />
+  <hr />
+    <img
+      alt="Customer search"
+      src="https://i.imgur.com/iFMkhUi.png"
+    />
+  <hr />
+    <img
+      alt="Admin dashboard"
+      src="https://i.imgur.com/XRAE1Pk.png"
+    />
+  <hr />
+    <img
+      alt="Notification"
+      src="https://i.imgur.com/eCSZ57j.png"
+    />
+</div>
 
-### `npm run build`
+## Technology stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- UI framework used: [React.js](https://reactjs.org/)
+- State management library used: [React-Redux](https://react-redux.js.org/)
+- Component design: [Material UI](https://material-ui.com/)
+- API Client: [Axios](https://www.npmjs.com/package/axios)
+- Client side routing: [React Router](https://www.npmjs.com/package/react-router-dom)
+- State persistance: [Redux Persist](https://www.npmjs.com/package/redux-persist)
+- Async API calls: [Redux Thunk](https://www.npmjs.com/package/redux-thunk)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Backend
 
-### `npm run eject`
+- Server: [Express.js](https://expressjs.com/)
+- Password Encryption: [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- Input Validation: [Joi](https://www.npmjs.com/package/joi)
+- Authorization: [JSON Web Tokens](https://www.npmjs.com/package/joi)
+- Real-time alerts: [Socket.io](http://socket.io/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Databases
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Primary database to store all information related to branches, admins and alerts: [MySQL](https://www.npmjs.com/package/mysql)
+- Refresh tokens: [Redis](https://www.npmjs.com/package/redis)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Hosting
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [Heroku](https://www.heroku.com/)
 
-## Learn More
+## State
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You can have a look at the state of the application by installing [Redux Dev Tools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## API Documentation
 
-### Code Splitting
+### Introduction
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The Server APIs are defined in `/server/request.rest` file. To setup the server at your localhost, you can install
+the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) in VS Code or you can directly
+use [Postmam](https://www.postman.com/) to test the endpoints.
 
-### Analyzing the Bundle Size
+### Authorization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Some API requests require the use of a access token. You can generate the new token by hitting the
+`/admin/login` endpoint.
 
-### Making a Progressive Web App
+</hr>
+Please note that this token will be valid for a span of 1 minute ony, after that 
+you will need to use refresh token to get a new refreshed token.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+To authenticate an API request, you should provide your access token in the `Authorization` header.
 
-### Advanced Configuration
+```http
+GET /admin/dashboard
+Authorization: Bearer ACCESS_TOKEN
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Parameter     | Type     | Description                     |
+| :------------ | :------- | :------------------------------ |
+| `accessToken` | `string` | **Required**. Your Access Token |
 
-### Deployment
+### API Reference
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+| Endpoint                    | Type | Description                                       |
+| :-------------------------- | :--- | :------------------------------------------------ |
+| `/admin/register`           | POST | Register a new Admin                              |
+| `/admin/login`              | POST | Sign in the admin account                         |
+| `/admin/login`              | GET  | Check if the admin is already logged in           |
+| `/admin/dashboard`          | GET  | Get information of all branches                   |
+| `/auth/token`               | POST | Get a refreshed access token                      |
+| `/admin/logout`             | POST | Logout from the admin account                     |
+| `/branch/login`             | POST | Enter a particular branch to get the notification |
+| `/customer/get_branch_info` | GET  | Get branches serving at searched pin code         |
 
-### `npm run build` fails to minify
+### Responses
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+API endpoints return the JSON representation of the resources created or edited.
+
+```javascript
+{
+  "message" : string,
+  "status"  : number,
+  "data"    : string
+}
+```
+
+The `message` attribute contains a message commonly used to indicate errors or, in the case of deleting a resource, success that the resource was properly deleted.
+
+The `status` attribute describes if the transaction was successful or not.
+
+The `data` attribute contains any other metadata associated with the response. This will be an escaped string containing JSON data.
+
+### Status Codes
+
+| Status Code | Description             |
+| :---------- | :---------------------- |
+| 200         | `OK`                    |
+| 400         | `BAD REQUEST`           |
+| 404         | `NOT FOUND`             |
+| 500         | `INTERNAL SERVER ERROR` |
+
+## Local setup
+
+```
+git clone https://github.com/nischaldutt/alertio.git
+
+cd client
+npm install
+
+cd ../server
+npm install
+```
+
+## Running the app locally
+
+To get the app up and running (and really see if it worked), run:
+
+```shell
+cd client
+npm start
+```
+
+```shell
+cd server
+npm run dev
+```
+
+This should start up your browser. If you're familiar, this is a standard
+[react-scripts](https://create-react-app.dev/) application.
+
+You can also open
+[the deployment of the app on Heroku](https://alertio-backend.herokuapp.com/).
