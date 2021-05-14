@@ -41,32 +41,55 @@
 
 ## ScreenShots
 
+### Home
+
 <div>
     <img
       alt="Home"
       src="https://i.imgur.com/jfla1KV.png"
     />
-  <hr />
+</div>
+</hr>
+
+### Admin Login
+
+<div>
     <img
       alt="Admin login"
       src="https://i.imgur.com/3i4r9MG.png"
     />
-  <hr />
+</div>
+</hr>
+
+### Customer search
+
+<div>
     <img
       alt="Customer search"
       src="https://i.imgur.com/iFMkhUi.png"
     />
-  <hr />
+</div>
+</hr>
+
+### Admin dashboard
+
+<div>
     <img
       alt="Admin dashboard"
       src="https://i.imgur.com/XRAE1Pk.png"
     />
-  <hr />
+</div>
+</hr>
+
+### Notification
+
+<div>
     <img
       alt="Notification"
       src="https://i.imgur.com/eCSZ57j.png"
     />
 </div>
+</hr>
 
 ## Technology stack
 
