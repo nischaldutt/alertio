@@ -49,7 +49,7 @@
       src="https://i.imgur.com/jfla1KV.png"
     />
 </div>
-</hr>
+<hr />
 
 ### Admin Login
 
@@ -59,7 +59,7 @@
       src="https://i.imgur.com/3i4r9MG.png"
     />
 </div>
-</hr>
+<hr />
 
 ### Customer search
 
@@ -69,7 +69,7 @@
       src="https://i.imgur.com/iFMkhUi.png"
     />
 </div>
-</hr>
+<hr />
 
 ### Admin dashboard
 
@@ -79,7 +79,7 @@
       src="https://i.imgur.com/XRAE1Pk.png"
     />
 </div>
-</hr>
+<hr />
 
 ### Notification
 
@@ -89,7 +89,7 @@
       src="https://i.imgur.com/eCSZ57j.png"
     />
 </div>
-</hr>
+<hr />
 
 ## Technology stack
 
